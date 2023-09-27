@@ -49,6 +49,8 @@ export const Todolist = (props: PropsType) => {
                     props.changeFilter('active')}}>Active</button>
                 <button onClick={()=>{
                     props.changeFilter('completed')}}>Completed</button>
+                <button onClick={()=>{
+                    props.changeFilter('delete all')}}>Delete all</button>
             </div>
         </div>
     )
