@@ -18,11 +18,11 @@ export type TaskType = {
 
 export const Todolist = (props: PropsType) => {
     console.log('render')
-    const [newTaskTitle, setNewTaskTitle] = useState('')
+    let [newTaskTitle, setNewTaskTitle] = useState('')
     /*const titleInput = useRef<HTMLInputElement>(null)*/
     const onClickAddTask = () => {
         props.addTask(newTaskTitle)
-        setNewTaskTitle('')
+        setNewTaskTitle(newTaskTitle = '')
     }
     const isAddBtnDisabled = newTaskTitle === '' || newTaskTitle.length >= 15
     const userMessage = newTaskTitle.length < 15
