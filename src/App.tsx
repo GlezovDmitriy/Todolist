@@ -22,8 +22,8 @@ function App() {
     ])
 
     function removeTask(id: string) {
-        let filtredTasks = tasks.filter(task => task.id !== id)
-        setTasks(filtredTasks)
+        let filteredTasks = tasks.filter(task => task.id !== id)
+        setTasks(filteredTasks)
     }
     console.log(crypto.randomUUID())
     let [filter, setFilter] = useState<FilterValuesType>('all')
@@ -58,23 +58,32 @@ const nextState: Array<TaskType> = [...tasks, newTask]
         setTasks([...tasks, {id: crypto.randomUUID(), title: title, isDone: false}])
     }
     */
-function changeTasksStatus(id:string, isDone: boolean){
+/*function changeTasksStatus(id:string, isDone: boolean){
     let task = tasks.find(t => t.id === id)
     if (task) {
         task.isDone = isDone;
         setTasks([...tasks])
     }
 
-}
+}*/
+    function changeTasksStatus(taskId: string, newIsDoneValue: boolean) {
+        const updateTasks:Array<TaskType> = tasks.map(t =>t.id === taskId
+        ? {...t, isDone: newIsDoneValue}: t)
+        setTasks(updateTasks)
+
+    }
 
     return (
         <div className='App'>
             <Todolist title={title1}
+                      filter = {filter}
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
+                      changeTasksStatus={changeTasksStatus}
             />
+
         </div>
 
     );

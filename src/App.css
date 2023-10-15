@@ -2,8 +2,38 @@
 
   padding: 30px;
   display: flex;
+  background-color: antiquewhite;
+  width: 1200px;
 }
 
 .App > div {
   margin-right: 50px;
+  background-color: #f3e88b;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.App > div > div {
+
+  text-align: center;
+}
+.App > div > h3 {
+  margin-left: 10px;
+  text-align: center;
+}
+.task {
+  font-weight: bold;
+}
+.task-done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.btn-active {
+  color: white;
+  background-color: #211802;
+  border-radius: 3px;
+  border: 2px solid white;
+}
+.buttons {
+  margin: 5px 10px;
 }
