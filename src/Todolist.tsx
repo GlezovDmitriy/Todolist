@@ -20,7 +20,7 @@ export type TaskType = {
 
 export const Todolist: FC<PropsType> = (
     {
-        title,
+        title,                                                      // если так указывать, то не нужно прописывать "props." в коде
         filter,
         tasks,
         removeTask,
@@ -30,22 +30,33 @@ export const Todolist: FC<PropsType> = (
     }) => {
 
     let [newTaskTitle, setNewTaskTitle] = useState('')
-    /*const titleInput = useRef<HTMLInputElement>(null)*/
+    let [inputError, setInputError] = useState(false)
+
+
     const onClickAddTask = () => {
         const trimmedTitle = newTaskTitle.trim()                      // убираем пробелы
         if (trimmedTitle.length !== 0) {                                      //если что-то осталось в строке - то добавляем ее
             addTask(trimmedTitle)
+        } else {
+            setInputError(true)                                          //если строка пустая - то передаем в локальный стейт, что есть ошибка
         }
         setNewTaskTitle(newTaskTitle = '')
     }
     const isAddBtnDisabled = newTaskTitle === '' || newTaskTitle.length >= 15
-    const userMessage = newTaskTitle.length < 15
+    const userMessage = inputError
+    ? <span style={{color: 'red'}}> Нужно что-то ввести!</span>
+        : newTaskTitle.length < 15
         ? <span> Enter new title</span>
         : <span style={{color: 'red'}}> Too long message</span>
     const onKeyDownAddTask = (event: KeyboardEvent<HTMLInputElement>) => event.key === "Enter" &&
         onClickAddTask()
 
-    const onChangeSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.target.value)
+    const onChangeSetNewTaskTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        inputError && setInputError(false)                                                    //сбрасываем ошибку, если до этого была при вводе пробелов
+        setNewTaskTitle(e.currentTarget.value)                                        // отрисовывает каждый новый символ в инпуте
+    }
+
+
     return (
         <div>
             <h3>{title}</h3>
@@ -58,9 +69,11 @@ export const Todolist: FC<PropsType> = (
                         titleInput.current.value = ''
                     }
                 }}>+</button>*/}
-                <input value={newTaskTitle}
-                       onChange={onChangeSetNewTaskTitle}
-                       onKeyDown={onKeyDownAddTask}
+                <input
+                    className={inputError ? "input-error" : undefined}
+                    value={newTaskTitle}
+                    onChange={onChangeSetNewTaskTitle}
+                    onKeyDown={onKeyDownAddTask}
 
                 />
 

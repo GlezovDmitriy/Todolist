@@ -37,3 +37,6 @@
 .buttons {
   margin: 5px 10px;
 }
+.input-error {
+  border: 2px solid red;
+}
