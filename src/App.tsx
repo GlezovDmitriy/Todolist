@@ -24,8 +24,8 @@ function App() {
         ]
     )
 
-    const title1 = 'What to learn1';
-    const title2 = 'React';
+    //const title1 = 'What to learn1';
+    //const title2 = 'React';
 
     let [tasks, setTasks] = useState({
         [todolistID1]: [
@@ -34,17 +34,18 @@ function App() {
             {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
         ],
         [todolistID2]: [
-            {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
-            {id: crypto.randomUUID(), title: "JS", isDone: true},
-            {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
-            {id: crypto.randomUUID(), title: "Git", isDone: true},
-            {id: crypto.randomUUID(), title: "Figma", isDone: false},
+            {id: crypto.randomUUID(), title: " book HTML&CSS", isDone: true},
+            {id: crypto.randomUUID(), title: " book JS", isDone: true},
+            {id: crypto.randomUUID(), title: " book ReactJS", isDone: false},
+            {id: crypto.randomUUID(), title: " book Git", isDone: true},
+            {id: crypto.randomUUID(), title: " book Figma", isDone: false},
         ]
     })
 
-    function removeTask(id: string) {
-        let filteredTasks = tasks.filter(task => task.id !== id)
-        setTasks(filteredTasks)
+    function removeTask(todolistId: string, id: string) {
+        let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
+        tasks[todolistId] = todolistTasks.filter(task => task.id !== todolistId) //перезаписываем в объекте отфильтрованный массив
+        setTasks({...tasks}) // сетаем копию в стейт для перерисовки
     }
 
     function changeFilter(todolistId: string, value: FilterValuesType) {
