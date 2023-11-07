@@ -4,11 +4,12 @@ import {FilterValuesType} from "./App";
 
 
 type PropsType = {
+    todolistId:string
     title: string,
     filter: FilterValuesType,
     tasks: Array<TaskType>,
     removeTask: (taskId: string) => void,
-    changeFilter: (value: FilterValuesType) => void,
+    changeFilter: (todolistId: string, value: FilterValuesType) => void,
     addTask: (title: string) => void,
     changeTasksStatus: (taskId: string, newIsDoneValue: boolean) => void,
 }
@@ -20,6 +21,7 @@ export type TaskType = {
 
 export const Todolist: FC<PropsType> = (
     {
+        todolistId,
         title,                                                      // если так указывать, то не нужно прописывать "props." в коде
         filter,
         tasks,
@@ -114,25 +116,25 @@ export const Todolist: FC<PropsType> = (
                 <button
                     className={filter === 'all' ? "btn-active" : undefined}
                     onClick={() => {
-                        changeFilter('all')
+                        changeFilter( todolistId, 'all')
                     }}>All
                 </button>
                 <button
                     className={filter === 'active' ? "btn-active" : undefined}
                     onClick={() => {
-                        changeFilter('active')
+                        changeFilter(todolistId,'active')
                     }}>Active
                 </button>
                 <button
                     className={filter === 'completed' ? "btn-active" : undefined}
                     onClick={() => {
-                        changeFilter('completed')
+                        changeFilter(todolistId,'completed')
                     }}>Completed
                 </button>
                 <button
                     className={filter === 'delete all' ? "btn-active" : undefined}
                     onClick={() => {
-                        changeFilter('delete all')
+                        changeFilter(todolistId,'delete all')
                     }}>Delete all
                 </button>
             </div>
