@@ -82,10 +82,14 @@ function App() {
         }
 
     }*/
-    function changeTasksStatus(taskId: string, newIsDoneValue: boolean) {
-        const updateTasks: Array<TaskType> = tasks.map(t => t.id === taskId
-            ? {...t, isDone: newIsDoneValue} : t)
-        setTasks(updateTasks)
+    function changeTasksStatus(todolistId: string, taskId: string, newIsDoneValue: boolean) {
+        let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
+        let task = todolistTasks.find(el => el.id === taskId)
+        // изменяем значение isDone таски если она нашлась
+        if (task){
+            task.isDone = newIsDoneValue
+        }
+        setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
 
     }
 
