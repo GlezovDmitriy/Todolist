@@ -57,15 +57,15 @@ function App() {
 
     }
 
-    function addTask(title: string) {
-        const newTaskId = crypto.randomUUID()
+    function addTask(todolistId: string, title: string) {
         const newTask: TaskType = {
-            id: newTaskId,
+            id: crypto.randomUUID(),
             title: title,
             isDone: false
         }
-        const nextState: Array<TaskType> = [...tasks, newTask]
-        setTasks(nextState)
+        let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
+        tasks[todolistId] = [newTask,...todolistTasks]  // перезапись массива с добавлением новой таски в начало
+        setTasks({...tasks})            // сетаем копию в стейт для перерисовки
     }
 
 // function addTask можно записать (сократьть) как:
