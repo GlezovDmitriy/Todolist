@@ -13,24 +13,34 @@ type TodolistType = {
 }
 
 function App() {
+    let todolistID1 = crypto.randomUUID()
+    let todolistID2 = crypto.randomUUID()
+
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>(
         [
-            {id: crypto.randomUUID(), title: 'What to learn', filter: 'all'},
-            {id: crypto.randomUUID(), title: 'What to buy', filter: 'all'},
+            {id: todolistID1, title: 'What to learn', filter: 'all'},
+            {id: todolistID2, title: 'What to buy', filter: 'all'},
         ]
     )
 
     const title1 = 'What to learn1';
     const title2 = 'React';
 
-    let [tasks, setTasks] = useState([
-        {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
-        {id: crypto.randomUUID(), title: "JS", isDone: true},
-        {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
-        {id: crypto.randomUUID(), title: "Git", isDone: true},
-        {id: crypto.randomUUID(), title: "Figma", isDone: false},
-    ])
+    let [tasks, setTasks] = useState({
+        [todolistID1]: [
+            {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
+            {id: crypto.randomUUID(), title: "JS", isDone: true},
+            {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
+        ],
+        [todolistID2]: [
+            {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
+            {id: crypto.randomUUID(), title: "JS", isDone: true},
+            {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
+            {id: crypto.randomUUID(), title: "Git", isDone: true},
+            {id: crypto.randomUUID(), title: "Figma", isDone: false},
+        ]
+    })
 
     function removeTask(id: string) {
         let filteredTasks = tasks.filter(task => task.id !== id)
@@ -38,11 +48,11 @@ function App() {
     }
 
     function changeFilter(todolistId: string, value: FilterValuesType) {
-       let todolist = todolists.find(el=>el.id === todolistId)
-    if (todolist){
-        todolist.filter = value           // фильтр - это свойство,  а не метод!!!
-        setTodolists([...todolists])
-    }
+        let todolist = todolists.find(el => el.id === todolistId)
+        if (todolist) {
+            todolist.filter = value           // фильтр - это свойство,  а не метод!!!
+            setTodolists([...todolists])
+        }
 
     }
 
@@ -92,7 +102,7 @@ function App() {
                     if (el.filter === 'delete all') {
                         tasksForTodolist = tasks.filter(task => (!task.isDone && task.isDone))
                     }
-                  return  <Todolist
+                    return <Todolist
                         key={el.id}
                         todolistId={el.id}
                         title={el.title}
