@@ -41,10 +41,15 @@ function App() {
             {id: crypto.randomUUID(), title: " book Figma", isDone: false},
         ]
     })
-
+function removeTodolist(todolistId: string){
+    setTodolists(todolists.filter(todolist =>todolist.id !== todolistId))
+    delete tasks[todolistId]
+    setTasks({...tasks})
+    console.log(tasks[todolistID2])
+    }
     function removeTask(todolistId: string, id: string) {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
-        tasks[todolistId] = todolistTasks.filter(task => task.id !== todolistId) //перезаписываем в объекте отфильтрованный массив
+        tasks[todolistId] = todolistTasks.filter(task => task.id !== id) //перезаписываем в объекте отфильтрованный массив
         setTasks({...tasks}) // сетаем копию в стейт для перерисовки
     }
 
@@ -97,15 +102,16 @@ function App() {
         <div className='App'>
             {
                 todolists.map(el => {
-                    let tasksForTodolist = tasks // копия  массива тасок
+                    let allTodolistTasks = tasks[el.id] // копия  массива тасок
+                    let tasksForTodolist = allTodolistTasks
                     if (el.filter === 'active') {
-                        tasksForTodolist = tasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                        tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
                     }
                     if (el.filter === 'completed') {
-                        tasksForTodolist = tasks.filter(task => task.isDone)
+                        tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
                     }
                     if (el.filter === 'delete all') {
-                        tasksForTodolist = tasks.filter(task => (!task.isDone && task.isDone))
+                        tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
                     }
                     return <Todolist
                         key={el.id}
@@ -117,6 +123,7 @@ function App() {
                         changeFilter={changeFilter}
                         addTask={addTask}
                         changeTasksStatus={changeTasksStatus}
+                        removeTodolist={removeTodolist}
                     />
 
                 })

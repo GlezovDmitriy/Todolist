@@ -8,10 +8,11 @@ type PropsType = {
     title: string,
     filter: FilterValuesType,
     tasks: Array<TaskType>,
-    removeTask: (taskId: string) => void,
+    removeTask: (todolistId: string, id: string) => void,
     changeFilter: (todolistId: string, value: FilterValuesType) => void,
-    addTask: (title: string) => void,
-    changeTasksStatus: (taskId: string, newIsDoneValue: boolean) => void,
+    addTask: (todolistId: string, title: string) => void,
+    changeTasksStatus: (todolistId: string, taskId: string, newIsDoneValue: boolean) => void,
+    removeTodolist:(todolistId: string)=>void
 }
 export type TaskType = {
     title: string,
@@ -28,7 +29,8 @@ export const Todolist: FC<PropsType> = (
         removeTask,
         changeFilter,
         addTask,
-        changeTasksStatus
+        changeTasksStatus,
+        removeTodolist
     }) => {
 
     let [newTaskTitle, setNewTaskTitle] = useState('')
@@ -38,7 +40,7 @@ export const Todolist: FC<PropsType> = (
     const onClickAddTask = () => {
         const trimmedTitle = newTaskTitle.trim()                      // убираем пробелы
         if (trimmedTitle.length !== 0) {                                      //если что-то осталось в строке - то добавляем ее
-            addTask(trimmedTitle)
+            addTask(todolistId, trimmedTitle)
         } else {
             setInputError(true)                                          //если строка пустая - то передаем в локальный стейт, что есть ошибка
         }
@@ -46,10 +48,10 @@ export const Todolist: FC<PropsType> = (
     }
     const isAddBtnDisabled = newTaskTitle === '' || newTaskTitle.length >= 15
     const userMessage = inputError
-    ? <span style={{color: 'red'}}> Нужно что-то ввести!</span>
+    ? <span style={{color: 'red'}}> Please, enter something!</span>
         : newTaskTitle.length < 15
         ? <span> Enter new title</span>
-        : <span style={{color: 'red'}}> Too long message</span>
+        : <span style={{color: 'red'}}> Too long message!</span>
     const onKeyDownAddTask = (event: KeyboardEvent<HTMLInputElement>) => event.key === "Enter" &&
         onClickAddTask()
 
@@ -61,7 +63,8 @@ export const Todolist: FC<PropsType> = (
 
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>{title} <button className={"todolist-btn"} onClick={()=>removeTodolist(todolistId)}>X</button></h3>
+
             {/*<FullInput/>*/}
             <div>
                 {/* <input ref={titleInput}/>
@@ -92,10 +95,10 @@ export const Todolist: FC<PropsType> = (
             <ul>
                 {tasks.map((task, index) => {
                     const onClickRemoveTaskHandler = () => {
-                        removeTask(task.id)
+                        removeTask(todolistId,task.id)
                     }
                     const onChangeStatusHandler =
-                        (e: ChangeEvent<HTMLInputElement>) => changeTasksStatus(task.id, e.currentTarget.checked)
+                        (e: ChangeEvent<HTMLInputElement>) => changeTasksStatus(todolistId,task.id, e.currentTarget.checked)
                     return (
                         <li key={task.id}>
                             <input
@@ -103,8 +106,8 @@ export const Todolist: FC<PropsType> = (
                                 type="checkbox"
                                 checked={task.isDone}/>
                             <span className={task.isDone ? "task-done" : "task"}>{task.title}</span>
-                            <button onClick={onClickRemoveTaskHandler}>
-                                ✖️
+                            <button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
+                                X️
                             </button>
                         </li>
                     )
