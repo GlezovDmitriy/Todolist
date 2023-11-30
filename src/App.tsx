@@ -11,6 +11,9 @@ type TodolistType = {
     title: string,
     filter: FilterValuesType
 }
+type TasksStateType={
+    [key:string]: Array<TaskType>
+}
 
 function App() {
     let todolistID1 = crypto.randomUUID()
@@ -27,7 +30,7 @@ function App() {
     //const title1 = 'What to learn1';
     //const title2 = 'React';
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
             {id: crypto.randomUUID(), title: "JS", isDone: true},
