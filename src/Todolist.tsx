@@ -1,9 +1,10 @@
 import React, {useRef, useState, KeyboardEvent, ChangeEvent, FC} from "react";
 import {FullInput} from "./components/FullInput";
 import {FilterValuesType} from "./App";
+import {AddItemForm} from "./components/AddItemForm";
 
 
-type PropsType = {
+export type PropsType = {
     todolistId:string
     title: string,
     filter: FilterValuesType,
@@ -36,6 +37,9 @@ export const Todolist: FC<PropsType> = (
     let [newTaskTitle, setNewTaskTitle] = useState('')
     let [inputError, setInputError] = useState(false)
 
+   /* const addTask = (title:string)=>{
+        addTask(title)
+    }*/
 
     const onClickAddTask = () => {
         const trimmedTitle = newTaskTitle.trim()                      // убираем пробелы

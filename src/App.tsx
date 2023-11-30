@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./Todolist";
+import {PropsType, TaskType, Todolist} from "./Todolist";
+import {AddItemForm} from "./components/AddItemForm";
 
 /*import * as crypto from "crypto";*/
 
@@ -11,8 +12,8 @@ type TodolistType = {
     title: string,
     filter: FilterValuesType
 }
-type TasksStateType={
-    [key:string]: Array<TaskType>
+type TasksStateType = {
+    [key: string]: Array<TaskType>
 }
 
 function App() {
@@ -44,12 +45,14 @@ function App() {
             {id: crypto.randomUUID(), title: " book Figma", isDone: false},
         ]
     })
-function removeTodolist(todolistId: string){
-    setTodolists(todolists.filter(todolist =>todolist.id !== todolistId))
-    delete tasks[todolistId]
-    setTasks({...tasks})
-    console.log(tasks[todolistID2])
+
+    function removeTodolist(todolistId: string) {
+        setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
+        delete tasks[todolistId]
+        setTasks({...tasks})
+        console.log(tasks[todolistID2])
     }
+
     function removeTask(todolistId: string, id: string) {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         tasks[todolistId] = todolistTasks.filter(task => task.id !== id) //перезаписываем в объекте отфильтрованный массив
@@ -72,7 +75,7 @@ function removeTodolist(todolistId: string){
             isDone: false
         }
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
-        tasks[todolistId] = [newTask,...todolistTasks]  // перезапись массива с добавлением новой таски в начало
+        tasks[todolistId] = [newTask, ...todolistTasks]  // перезапись массива с добавлением новой таски в начало
         setTasks({...tasks})            // сетаем копию в стейт для перерисовки
     }
 
@@ -94,15 +97,29 @@ function removeTodolist(todolistId: string){
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
         // изменяем значение isDone таски если она нашлась
-        if (task){
+        if (task) {
             task.isDone = newIsDoneValue
         }
         setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
 
     }
 
+    function onClickAddTodolist(title: string) {
+        let newTodolistId = crypto.randomUUID()
+        let newTodolist: TodolistType = {
+            id: newTodolistId,
+            title: title,
+            filter: 'all'
+        }
+        setTodolists([newTodolist, ...todolists])
+        setTasks({
+            ...tasks,
+            [newTodolistId]:[]
+        })
+    }
     return (
         <div className='App'>
+            <AddItemForm addItem={onClickAddTodolist}/>
             {
                 todolists.map(el => {
                     let allTodolistTasks = tasks[el.id] // копия  массива тасок
