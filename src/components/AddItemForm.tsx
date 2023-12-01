@@ -23,7 +23,7 @@ export const AddItemForm = (props: AddItemFormType) => {
         inputError && setInputError(false)                                                    //сбрасываем ошибку, если до этого была при вводе пробелов
         setTitle(e.currentTarget.value)                                        // отрисовывает каждый новый символ в инпуте
     }
-    const isAddBtnDisabled = title === '' || title.length >= 15
+    //const isAddBtnDisabled = title === '' || title.length >= 15
     return (
         <div>
             <input
@@ -35,7 +35,7 @@ export const AddItemForm = (props: AddItemFormType) => {
             />
             <button
                 onClick={addItem}
-                disabled={isAddBtnDisabled}
+                //disabled={isAddBtnDisabled}
             >+
             </button>
         </div>

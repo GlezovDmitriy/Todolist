@@ -118,39 +118,45 @@ function App() {
         })
     }
     return (
-        <div className='App'>
-            <AddItemForm addItem={onClickAddTodolist}/>
-            {
-                todolists.map(el => {
-                    let allTodolistTasks = tasks[el.id] // копия  массива тасок
-                    let tasksForTodolist = allTodolistTasks
-                    if (el.filter === 'active') {
-                        tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
-                    }
-                    if (el.filter === 'completed') {
-                        tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                    }
-                    if (el.filter === 'delete all') {
-                        tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
-                    }
-                    return <Todolist
-                        key={el.id}
-                        todolistId={el.id}
-                        title={el.title}
-                        filter={el.filter}
-                        tasks={tasksForTodolist}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
-                        addTask={addTask}
-                        changeTasksStatus={changeTasksStatus}
-                        removeTodolist={removeTodolist}
-                    />
+        <>
+            <div>
+                <AddItemForm addItem={onClickAddTodolist}/>
+            </div>
+            <div className='App'>
 
-                })
-            }
+                {
+                    todolists.map(el => {
+                        let allTodolistTasks = tasks[el.id] // копия  массива тасок
+                        let tasksForTodolist = allTodolistTasks
+                        if (el.filter === 'active') {
+                            tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                        }
+                        if (el.filter === 'completed') {
+                            tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
+                        }
+                        if (el.filter === 'delete all') {
+                            tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
+                        }
+                        return <Todolist
+                            key={el.id}
+                            todolistId={el.id}
+                            title={el.title}
+                            filter={el.filter}
+                            tasks={tasksForTodolist}
+                            removeTask={removeTask}
+                            changeFilter={changeFilter}
+                            addTask={addTask}
+                            changeTasksStatus={changeTasksStatus}
+                            removeTodolist={removeTodolist}
+                        />
+
+                    })
+                }
 
 
-        </div>
+            </div>
+        </>
+
 
     );
 }
