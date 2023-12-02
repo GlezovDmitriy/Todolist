@@ -45,14 +45,22 @@ function App() {
             {id: crypto.randomUUID(), title: " book Figma", isDone: false},
         ]
     })
-
+    console.log(todolists)
     function removeTodolist(todolistId: string) {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         delete tasks[todolistId]
         setTasks({...tasks})
         console.log(tasks[todolistID2])
     }
-
+function changeTodolistTitle(todolistId: string, newTitle: string){
+        const todolist = todolists.find(tl=>tl.id === todolistId)
+    if(todolist){
+        todolist.title = newTitle
+        console.log(todolist.title)
+        setTodolists([...todolists])
+        console.log(todolists)
+    }
+}
     function removeTask(todolistId: string, id: string) {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         tasks[todolistId] = todolistTasks.filter(task => task.id !== id) //перезаписываем в объекте отфильтрованный массив
@@ -99,9 +107,21 @@ function App() {
         // изменяем значение isDone таски если она нашлась
         if (task) {
             task.isDone = newIsDoneValue
+            setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
-        setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
+    }
 
+    function changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
+        console.log(todolistId)
+        console.log(taskId)
+        console.log(newTitle)
+        let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
+        let task = todolistTasks.find(el => el.id === taskId)
+        // изменяем значение title таски если оно нашлось
+        if (task) {
+            task.title = newTitle
+            setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
+        }
     }
 
     function onClickAddTodolist(title: string) {
@@ -114,9 +134,10 @@ function App() {
         setTodolists([newTodolist, ...todolists])
         setTasks({
             ...tasks,
-            [newTodolistId]:[]
+            [newTodolistId]: []
         })
     }
+
     return (
         <>
             <div>
@@ -148,6 +169,8 @@ function App() {
                             addTask={addTask}
                             changeTasksStatus={changeTasksStatus}
                             removeTodolist={removeTodolist}
+                            changeTaskTitle={changeTaskTitle}
+                            changeTodolistTitle={changeTodolistTitle}
                         />
 
                     })
