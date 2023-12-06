@@ -105,7 +105,7 @@ const onChangeTodolistTitle=(newTitle:string)=>{
                 </div>
 
             </div>
-            <ul>
+            <ul className={"tasks"}>
                 {tasks.map((task, index) => {
                     const onClickRemoveTaskHandler = () => {
                         removeTask(todolistId,task.id)

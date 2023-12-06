@@ -3,10 +3,11 @@
   padding: 30px;
   display: flex;
   background-color: antiquewhite;
-  width: 100%;
+  width: 1200px;
 }
 
 .App > div {
+  width: max-content;
   margin-right: 50px;
   background-color: #f3e88b;
   border: 1px solid black;
@@ -18,13 +19,24 @@
   text-align: center;
 }
 .App > div > h3 {
+  display: flex;
+  justify-content: center;
   margin-left: 10px;
   text-align: center;
 }
 .task {
+  display: flex;
+  margin-top: 10px;
   font-weight: bold;
 }
+.tasks{
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
 .task-done {
+  display: flex;
+  margin-top: 10px;
   text-decoration: line-through;
   opacity: 0.5;
 }
@@ -43,6 +55,7 @@
   border: 2px solid red;
 }
 .todolist-btn {
+  margin-left: 5px;
   color: white;
   background-color: #211802;
   border-radius: 5px;
