@@ -75,10 +75,9 @@ const onChangeTodolistTitle=(newTitle:string)=>{
     return (
         <div>
             <h3><EditableSpan title={title} onChange={onChangeTodolistTitle}/>
-                <button className={"todolist-btn"}
-                        onClick={()=>removeTodolist(todolistId)}>X</button>
+                   <button className={"todolist-btn"}
+                           onClick={()=>removeTodolist(todolistId)}>X</button>
             </h3>
-
             {/*<FullInput/>*/}
             <div>
                 {/* <input ref={titleInput}/>
