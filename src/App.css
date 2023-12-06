@@ -48,6 +48,9 @@
 
 }
 .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 5px 10px;
   cursor: pointer;
 }

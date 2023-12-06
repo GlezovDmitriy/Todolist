@@ -1,7 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button, TextField} from "@mui/material";
 
 type AddItemFormType = {
-    addItem: (title:string)=> void
+    addItem: (title: string) => void
 }
 export const AddItemForm = (props: AddItemFormType) => {
     let [title, setTitle] = useState('')
@@ -26,18 +27,37 @@ export const AddItemForm = (props: AddItemFormType) => {
     //const isAddBtnDisabled = title === '' || title.length >= 15
     return (
         <div>
-            <input
+            {/*<input
                 className={inputError ? "input-error" : undefined}
                 value={title}
                 onChange={onChangeHandler}
                 onKeyDown={onKeyDownHandler}
 
-            />
-            <button
+            />*/}
+            <TextField id="outlined-basic"
+                       //label="Outlined"
+                       variant="outlined"
+                       className={inputError ? "input-error" : undefined}
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyDown={onKeyDownHandler}
+                       />
+            {/*<button
                 onClick={addItem}
                 //disabled={isAddBtnDisabled}
             >+
-            </button>
+            </button>*/}
+            <Button variant="contained"
+                    color='primary'
+                    onClick={addItem}
+                    style={{
+                        maxWidth: '25px', maxHeight: '25px',
+                        minWidth: '25px', minHeight: '25px',
+                        backgroundColor: '#f3e88b',
+                        border: '1px solid black',
+                        color: 'black'
+                    }}
+            >+</Button>
         </div>
     );
 };
