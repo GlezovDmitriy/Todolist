@@ -50,13 +50,13 @@ export const AddItemForm = (props: AddItemFormType) => {
             <Button variant="contained"
                     color='primary'
                     onClick={addItem}
-                    style={{
+                    /*style={{
                         maxWidth: '25px', maxHeight: '25px',
                         minWidth: '25px', minHeight: '25px',
                         backgroundColor: '#f3e88b',
                         border: '1px solid black',
                         color: 'black'
-                    }}
+                    }}*/
             >+</Button>
         </div>
     );

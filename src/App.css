@@ -1,3 +1,4 @@
+/*
 .App {
 
   padding: 30px;
@@ -24,28 +25,19 @@
   margin-left: 10px;
   text-align: center;
 }
-.task {
-  display: flex;
-  margin-top: 10px;
-  font-weight: bold;
-}
-.tasks{
-  display: flex;
-  flex-direction: column;
-  padding-left: 10px;
-}
-.task-done {
-  display: flex;
-  margin-top: 10px;
-  text-decoration: line-through;
-  opacity: 0.5;
-}
+
+
 .btn-active {
   color: white;
   background-color: #211802;
   border-radius: 5px;
   border: 2px solid white;
 
+}
+.tasks{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
 }
 .buttons {
   display: flex;
@@ -76,4 +68,17 @@ font-size: small;
   border-radius: 5px;
   border: 2px solid white;
   cursor: pointer;
+}
+*/
+
+.task-done {
+    display: flex;
+    margin-top: 10px;
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+.task {
+    display: flex;
+    margin-top: 10px;
+    font-weight: bold;
 }

@@ -22,7 +22,7 @@ export const EditableSpan = (props: EditableSpanType) => {
         console.log(props.title)
     }
     return (
-        <div>
+        <div style={{marginTop: '10px'}}>
             {editMode
                 ? /*<input
                          value={title}

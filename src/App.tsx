@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import {PropsType, TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
+import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBarFC} from "./components/AppBarFC";
 
 /*import * as crypto from "crypto";*/
 
@@ -14,6 +16,10 @@ type TodolistType = {
 }
 type TasksStateType = {
     [key: string]: Array<TaskType>
+}
+
+function MenuIcon() {
+    return null;
 }
 
 function App() {
@@ -46,21 +52,24 @@ function App() {
         ]
     })
     console.log(todolists)
+
     function removeTodolist(todolistId: string) {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         delete tasks[todolistId]
         setTasks({...tasks})
         console.log(tasks[todolistID2])
     }
-function changeTodolistTitle(todolistId: string, newTitle: string){
-        const todolist = todolists.find(tl=>tl.id === todolistId)
-    if(todolist){
-        todolist.title = newTitle
-        console.log(todolist.title)
-        setTodolists([...todolists])
-        console.log(todolists)
+
+    function changeTodolistTitle(todolistId: string, newTitle: string) {
+        const todolist = todolists.find(tl => tl.id === todolistId)
+        if (todolist) {
+            todolist.title = newTitle
+            console.log(todolist.title)
+            setTodolists([...todolists])
+            console.log(todolists)
+        }
     }
-}
+
     function removeTask(todolistId: string, id: string) {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         tasks[todolistId] = todolistTasks.filter(task => task.id !== id) //перезаписываем в объекте отфильтрованный массив
@@ -140,42 +149,53 @@ function changeTodolistTitle(todolistId: string, newTitle: string){
 
     return (
         <>
-            <div>
-                <AddItemForm addItem={onClickAddTodolist}/>
-            </div>
             <div className='App'>
+                {/*<Box sx={{ flexGrow: 1 }}>*/}
+                <AppBarFC/>
+                {/*</Box>*/}
+                <Container fixed>
+                    <Grid container style={{padding: '20px'}}>
+                        <AddItemForm addItem={onClickAddTodolist}/>
+                    </Grid>
+                    <Grid container spacing={3}>
+                        {
+                            todolists.map(el => {
+                                let allTodolistTasks = tasks[el.id] // копия  массива тасок
+                                let tasksForTodolist = allTodolistTasks
+                                if (el.filter === 'active') {
+                                    tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                                }
+                                if (el.filter === 'completed') {
+                                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
+                                }
+                                if (el.filter === 'delete all') {
+                                    tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
+                                }
+                                return <Grid item>
+                                    <Paper style={{padding: '10px'}}>
+                                        <Todolist
+                                            key={el.id}
+                                            todolistId={el.id}
+                                            title={el.title}
+                                            filter={el.filter}
+                                            tasks={tasksForTodolist}
+                                            removeTask={removeTask}
+                                            changeFilter={changeFilter}
+                                            addTask={addTask}
+                                            changeTasksStatus={changeTasksStatus}
+                                            removeTodolist={removeTodolist}
+                                            changeTaskTitle={changeTaskTitle}
+                                            changeTodolistTitle={changeTodolistTitle}
+                                        />
+                                    </Paper>
+                                </Grid>
 
-                {
-                    todolists.map(el => {
-                        let allTodolistTasks = tasks[el.id] // копия  массива тасок
-                        let tasksForTodolist = allTodolistTasks
-                        if (el.filter === 'active') {
-                            tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                            })
                         }
-                        if (el.filter === 'completed') {
-                            tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                        }
-                        if (el.filter === 'delete all') {
-                            tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
-                        }
-                        return <Todolist
-                            key={el.id}
-                            todolistId={el.id}
-                            title={el.title}
-                            filter={el.filter}
-                            tasks={tasksForTodolist}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            addTask={addTask}
-                            changeTasksStatus={changeTasksStatus}
-                            removeTodolist={removeTodolist}
-                            changeTaskTitle={changeTaskTitle}
-                            changeTodolistTitle={changeTodolistTitle}
-                        />
+                    </Grid>
 
-                    })
-                }
 
+                </Container>
 
             </div>
         </>

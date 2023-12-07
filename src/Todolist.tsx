@@ -3,8 +3,8 @@ import {FullInput} from "./components/FullInput";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
-import {Button, Checkbox, IconButton, TextField} from "@mui/material";
-import {Delete} from "@mui/icons-material";
+import {Button, Checkbox, IconButton, TextField, Grid} from "@mui/material";
+import {AddBox, Delete} from "@mui/icons-material";
 
 
 export type PropsType = {
@@ -80,15 +80,16 @@ export const Todolist: FC<PropsType> = (
 
     return (
         <div>
-            <h3><EditableSpan title={title} onChange={onChangeTodolistTitle}/>
+            <h3><EditableSpan title={title}
+                              onChange={onChangeTodolistTitle}/>
                 {/*<button className={"todolist-btn"}
                            onClick={()=>removeTodolist(todolistId)}>X</button>*/}
                 <IconButton onClick={() => removeTodolist(todolistId)}
-                            style={{
+                            /*style={{
                                 maxWidth: '25px', maxHeight: '25px',
                                 minWidth: '25px', minHeight: '25px',
                                 marginLeft: '5px'
-                            }}>
+                            }}*/>
                     <Delete/>
                 </IconButton>
             </h3>
@@ -115,7 +116,7 @@ export const Todolist: FC<PropsType> = (
                     value={newTaskTitle}
                     onChange={onChangeSetNewTaskTitle}
                     onKeyDown={onKeyDownAddTask}
-helperText={inputError}
+                    helperText={inputError}
                 />
 
                 {/*<button
@@ -123,24 +124,19 @@ helperText={inputError}
                     disabled={isAddBtnDisabled}
                 >+
                 </button>*/}
-                <Button variant="contained"
+
+                <IconButton //variant="contained"
                         color='primary'
                         onClick={onClickAddTask}
-                        disabled={isAddBtnDisabled}
-                        style={{
-                            maxWidth: '25px', maxHeight: '25px',
-                            minWidth: '25px', minHeight: '25px',
-                            backgroundColor: '#f3e88b',
-                            border: '1px solid black',
-                            color: 'black'
-                        }}
-                >+</Button>
+                        disabled={isAddBtnDisabled}>
+                    <AddBox/>
+                </IconButton>
                 <div>
                     <span>{userMessage} </span>
                 </div>
 
             </div>
-            <ul className={"tasks"}>
+            <div className={"tasks"}>
                 {tasks.map((task, index) => {
                     const onClickRemoveTaskHandler = () => {
                         removeTask(todolistId, task.id)
@@ -152,33 +148,33 @@ helperText={inputError}
                     }
 
                     return (
-                        <li key={task.id} className={task.isDone ? "task-done" : "task"}>
-                            {/*<input
+                            <div key={task.id} className={task.isDone ? "task-done" : "task"}>
+                                {/*<input
                                 onChange={onChangeStatusHandler}
                                 type="checkbox"
                                 checked={task.isDone}/>*/}
-                            <Checkbox color='primary'
-                                      onChange={onChangeStatusHandler}
-                                      checked={task.isDone}
-                            />
-                            <EditableSpan title={task.title} onChange={onChangeTitleHandler}/>
-                            {/*<button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
+                                <Checkbox color='primary'
+                                          onChange={onChangeStatusHandler}
+                                          checked={task.isDone}
+                                />
+                                <EditableSpan title={task.title} onChange={onChangeTitleHandler}/>
+                                {/*<button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
                                 X️
                             </button>*/}
-                            <IconButton onClick={onClickRemoveTaskHandler}
-                                        style={{
-                                            maxWidth: '20px', maxHeight: '20px',
-                                            minWidth: '20px', minHeight: '20px',
-                                            marginLeft: '5px'
-                                        }}>
-                                <Delete/>
-                            </IconButton>
-                        </li>
+                                <IconButton onClick={onClickRemoveTaskHandler}
+                                    /*style={{
+                                        maxWidth: '20px', maxHeight: '20px',
+                                        minWidth: '20px', minHeight: '20px',
+                                        marginLeft: '5px'
+                                    }}*/>
+                                    <Delete/>
+                                </IconButton>
+                            </div>
                     )
                 })}
 
 
-            </ul>
+            </div>
             <div className={"buttons"}>
                 <Button
                     variant={filter === 'all' ? "outlined" : 'text'}
@@ -187,14 +183,14 @@ helperText={inputError}
                     }}
                     //color='primary'
                     style={{
-                        fontSize: '10px', fontWeight: 'bold'
+                        fontSize: '12px', fontWeight: 'bold'
                     }}
                 >All
                 </Button>
                 <Button
                     variant={filter === 'active' ? "outlined" : 'text'}
                     style={{
-                        fontSize: '10px', fontWeight: 'bold'
+                        fontSize: '12px', fontWeight: 'bold'
                     }}
                     onClick={() => {
                         changeFilter(todolistId, 'active')
@@ -203,13 +199,13 @@ helperText={inputError}
                 <Button
                     variant={filter === 'completed' ? "outlined" : 'text'}
                     style={{
-                        fontSize: '10px', fontWeight: 'bold'
+                        fontSize: '12px', fontWeight: 'bold'
                     }}
                     onClick={() => {
                         changeFilter(todolistId, 'completed')
                     }}>Completed
                 </Button>
-                <Button
+               {/* <Button
                     variant={filter === 'delete all' ? "outlined" : 'text'}
                     style={{
                         fontSize: '10px', fontWeight: 'bold',
@@ -218,7 +214,7 @@ helperText={inputError}
                     onClick={() => {
                         changeFilter(todolistId, 'delete all')
                     }}>Delete all
-                </Button>
+                </Button>*/}
             </div>
         </div>
     )
