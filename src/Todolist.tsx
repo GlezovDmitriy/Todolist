@@ -3,7 +3,7 @@ import {FullInput} from "./components/FullInput";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button, Checkbox, IconButton, TextField} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 
@@ -61,7 +61,7 @@ export const Todolist: FC<PropsType> = (
         }
         setNewTaskTitle(newTaskTitle = '')
     }
-    const isAddBtnDisabled = newTaskTitle === '' || newTaskTitle.length >= 15
+    const isAddBtnDisabled = newTaskTitle.length >= 15
     const userMessage = inputError
         ? <span style={{color: 'red'}}> Please, enter something!</span>
         : newTaskTitle.length < 15
@@ -101,12 +101,21 @@ export const Todolist: FC<PropsType> = (
                         titleInput.current.value = ''
                     }
                 }}>+</button>*/}
-                <input
+                {/*<input
                     className={inputError ? "input-error" : undefined}
                     value={newTaskTitle}
                     onChange={onChangeSetNewTaskTitle}
                     onKeyDown={onKeyDownAddTask}
 
+                />*/}
+                <TextField //id="outlined-basic"
+                    label="Title"
+                    error={!!inputError}
+                    variant="outlined"
+                    value={newTaskTitle}
+                    onChange={onChangeSetNewTaskTitle}
+                    onKeyDown={onKeyDownAddTask}
+helperText={inputError}
                 />
 
                 {/*<button
@@ -148,9 +157,8 @@ export const Todolist: FC<PropsType> = (
                                 onChange={onChangeStatusHandler}
                                 type="checkbox"
                                 checked={task.isDone}/>*/}
-                            <Checkbox {...label}
+                            <Checkbox color='primary'
                                       onChange={onChangeStatusHandler}
-                                      type="checkbox"
                                       checked={task.isDone}
                             />
                             <EditableSpan title={task.title} onChange={onChangeTitleHandler}/>
