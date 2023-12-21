@@ -80,16 +80,12 @@ export const Todolist: FC<PropsType> = (
 
     return (
         <div>
-            <h3><EditableSpan title={title}
-                              onChange={onChangeTodolistTitle}/>
+            <h3 style={{display: 'flex'}}><EditableSpan title={title}
+                                                        onChange={onChangeTodolistTitle}/>
                 {/*<button className={"todolist-btn"}
                            onClick={()=>removeTodolist(todolistId)}>X</button>*/}
                 <IconButton onClick={() => removeTodolist(todolistId)}
-                            /*style={{
-                                maxWidth: '25px', maxHeight: '25px',
-                                minWidth: '25px', minHeight: '25px',
-                                marginLeft: '5px'
-                            }}*/>
+                            style={{marginTop: '3px'}}>
                     <Delete/>
                 </IconButton>
             </h3>
@@ -126,9 +122,9 @@ export const Todolist: FC<PropsType> = (
                 </button>*/}
 
                 <IconButton //variant="contained"
-                        color='primary'
-                        onClick={onClickAddTask}
-                        disabled={isAddBtnDisabled}>
+                    color='primary'
+                    onClick={onClickAddTask}
+                    disabled={isAddBtnDisabled}>
                     <AddBox/>
                 </IconButton>
                 <div>
@@ -148,28 +144,28 @@ export const Todolist: FC<PropsType> = (
                     }
 
                     return (
-                            <div key={task.id} className={task.isDone ? "task-done" : "task"}>
-                                {/*<input
+                        <div key={task.id} className={task.isDone ? "task-done" : "task"}>
+                            {/*<input
                                 onChange={onChangeStatusHandler}
                                 type="checkbox"
                                 checked={task.isDone}/>*/}
-                                <Checkbox color='primary'
-                                          onChange={onChangeStatusHandler}
-                                          checked={task.isDone}
-                                />
-                                <EditableSpan title={task.title} onChange={onChangeTitleHandler}/>
-                                {/*<button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
+                            <Checkbox color='primary'
+                                      onChange={onChangeStatusHandler}
+                                      checked={task.isDone}
+                            />
+                            <EditableSpan title={task.title} onChange={onChangeTitleHandler}/>
+                            {/*<button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
                                 X️
                             </button>*/}
-                                <IconButton onClick={onClickRemoveTaskHandler}
-                                    /*style={{
-                                        maxWidth: '20px', maxHeight: '20px',
-                                        minWidth: '20px', minHeight: '20px',
-                                        marginLeft: '5px'
-                                    }}*/>
-                                    <Delete/>
-                                </IconButton>
-                            </div>
+                            <IconButton onClick={onClickRemoveTaskHandler}
+                                /*style={{
+                                    maxWidth: '20px', maxHeight: '20px',
+                                    minWidth: '20px', minHeight: '20px',
+                                    marginLeft: '5px'
+                                }}*/>
+                                <Delete/>
+                            </IconButton>
+                        </div>
                     )
                 })}
 
@@ -205,7 +201,7 @@ export const Todolist: FC<PropsType> = (
                         changeFilter(todolistId, 'completed')
                     }}>Completed
                 </Button>
-               {/* <Button
+                {/* <Button
                     variant={filter === 'delete all' ? "outlined" : 'text'}
                     style={{
                         fontSize: '10px', fontWeight: 'bold',
