@@ -9,7 +9,7 @@ import {AppBarFC} from "./components/AppBarFC";
 
 
 export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
-type TodolistType = {
+export type TodolistType = {
     id: string,
     title: string,
     filter: FilterValuesType
@@ -59,7 +59,6 @@ function App() {
         setTasks({...tasks})
         console.log(tasks[todolistID2])
     }
-
     function changeTodolistTitle(todolistId: string, newTitle: string) {
         const todolist = todolists.find(tl => tl.id === todolistId)
         if (todolist) {
@@ -69,13 +68,11 @@ function App() {
             console.log(todolists)
         }
     }
-
     function removeTask(todolistId: string, id: string) {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         tasks[todolistId] = todolistTasks.filter(task => task.id !== id) //перезаписываем в объекте отфильтрованный массив
         setTasks({...tasks}) // сетаем копию в стейт для перерисовки
     }
-
     function changeFilter(todolistId: string, value: FilterValuesType) {
         let todolist = todolists.find(el => el.id === todolistId)
         if (todolist) {
@@ -84,7 +81,6 @@ function App() {
         }
 
     }
-
     function addTask(todolistId: string, title: string) {
         const newTask: TaskType = {
             id: crypto.randomUUID(),
@@ -95,7 +91,6 @@ function App() {
         tasks[todolistId] = [newTask, ...todolistTasks]  // перезапись массива с добавлением новой таски в начало
         setTasks({...tasks})            // сетаем копию в стейт для перерисовки
     }
-
 // function addTask можно записать (сократьть) как:
     /*function addTask(title:string) {
         setTasks([...tasks, {id: crypto.randomUUID(), title: title, isDone: false}])
@@ -119,7 +114,6 @@ function App() {
             setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
     }
-
     function changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
         console.log(todolistId)
         console.log(taskId)
@@ -132,7 +126,6 @@ function App() {
             setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
     }
-
     function onClickAddTodolist(title: string) {
         let newTodolistId = crypto.randomUUID()
         let newTodolist: TodolistType = {
