@@ -54,11 +54,14 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
         }
         case 'CHANGE-TASK-STATUS': {
             const stateCopy = {...state}
-            const newTasks = stateCopy[action.payload.todolistId]
-            const newTask = newTasks.map(t=> t.id === action.payload.taskId
-            ? t.isDone = action.payload.isDone
-            : t)
-            return {...stateCopy, newTasks}
+            let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
+            let task = todolistTasks.find(el => el.id === action.payload.taskId)
+            // изменяем значение isDone таски если она нашлась
+            if (task) {
+                task.isDone = action.payload.isDone
+            }
+            return stateCopy
+
         }
 
         default:
