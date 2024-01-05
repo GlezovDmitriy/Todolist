@@ -14,7 +14,7 @@ export type TodolistType = {
     title: string,
     filter: FilterValuesType
 }
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -115,9 +115,6 @@ function App() {
         }
     }
     function changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
-        console.log(todolistId)
-        console.log(taskId)
-        console.log(newTitle)
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
         // изменяем значение title таски если оно нашлось

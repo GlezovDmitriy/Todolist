@@ -78,6 +78,7 @@ export const Todolist: FC<PropsType> = (
         changeTodolistTitle(todolistId, newTitle)
     }
 
+
     return (
         <div>
             <h3 style={{display: 'flex'}}><EditableSpan title={title}
