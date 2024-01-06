@@ -1,6 +1,7 @@
 import {TaskType} from "../Todolist";
 import {TasksStateType} from "../App";
 import * as crypto from "crypto";
+import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -37,7 +38,8 @@ type ActionsType = RemoveTaskActionType
     | AddTaskActionType
     | ChangeTaskStatusActionType
     | ChangeTaskTitleActionType
-
+    | AddTodolistActionType
+    | RemoveTodolistActionType
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
@@ -71,12 +73,23 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
         case 'CHANGE-TASK-TITLE': {
             const stateCopy = {...state}
             let todolistTasks = stateCopy[action.payload.todolistId]
-            let task = todolistTasks.find(t=>t.id === action.payload.taskId)
-            if (task){
+            let task = todolistTasks.find(t => t.id === action.payload.taskId)
+            if (task) {
                 task.title = action.payload.title
             }
-                return stateCopy
+            return stateCopy
 
+        }
+        case 'ADD-TODOLIST': {
+            const stateCopy = {...state}
+            stateCopy[action.todolistId] = []
+
+            return stateCopy
+        }
+        case 'REMOVE-TODOLIST': {
+            const stateCopy = {...state}
+            delete stateCopy[action.id]
+            return stateCopy
         }
         default:
             throw new Error("I don't understand this type")
