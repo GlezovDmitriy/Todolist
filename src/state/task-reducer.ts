@@ -1,7 +1,8 @@
 import {TaskType} from "../Todolist";
 import {TasksStateType} from "../App";
-/*import * as crypto from "crypto";*/
+import * as crypto from "crypto";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
+import {v1} from "uuid";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -52,7 +53,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
         case 'ADD-TASK': {
             const stateCopy = {...state}
             const newTask = {
-                id: crypto.randomUUID(),
+                id: v1(),
                 title: action.payload.title,
                 isDone: false,
             }

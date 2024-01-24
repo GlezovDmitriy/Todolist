@@ -1,5 +1,6 @@
 import {FilterValuesType, TodolistType} from "../App";
-/*import * as crypto from "crypto";*/
+import * as crypto from "crypto";
+import {v1} from "uuid";
 /*type ActionType = {
     type: string
     [key: string]: any
@@ -36,7 +37,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
             return state.filter(el => el.id !== action.id)
         }
         case 'ADD-TODOLIST': {
-            return [...state, {id: action.todolistId, title: action.title, filter: 'all'}]
+            return [ {id: action.todolistId, title: action.title, filter: 'all'}, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
             const todolist = state.find(tl => tl.id === action.id)
@@ -63,7 +64,7 @@ export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType =
     return {type: 'REMOVE-TODOLIST', id: todolistId}
 }
 export const addTodolistAC = (title: string): AddTodolistActionType => {
-    return {type: 'ADD-TODOLIST', title: title, todolistId: crypto.randomUUID()}
+    return {type: 'ADD-TODOLIST', title: title, todolistId: v1()}
 }
 export const changeTodolistTitleAC = (newTitle: string, id: string): ChangeTodolistTitleActionType => {
     return {type: 'CHANGE-TODOLIST-TITLE', title: newTitle, id: id}
