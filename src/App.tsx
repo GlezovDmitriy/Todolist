@@ -4,6 +4,7 @@ import {PropsType, TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {AppBarFC} from "./components/AppBarFC";
+import {v1} from "uuid";
 
 /*import * as crypto from "crypto";*/
 
@@ -23,8 +24,8 @@ function MenuIcon() {
 }
 
 function App() {
-    let todolistID1 = crypto.randomUUID()
-    let todolistID2 = crypto.randomUUID()
+    let todolistID1 = v1()
+    let todolistID2 = v1()
 
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>(
@@ -83,7 +84,7 @@ function App() {
     }
     function addTask(todolistId: string, title: string) {
         const newTask: TaskType = {
-            id: crypto.randomUUID(),
+            id: v1(),
             title: title,
             isDone: false
         }
