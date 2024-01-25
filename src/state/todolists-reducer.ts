@@ -30,7 +30,14 @@ type ActionType = RemoveTodolistActionType
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionType): Array<TodolistType> => {
+export let todolistID1 =v1()
+export let todolistID2 = v1()
+const initialState:Array<TodolistType> = [
+    {id: todolistID1, title: 'What to learn', filter: 'all'},
+    {id: todolistID2, title: 'What to buy', filter: 'all'},
+]
+export const todolistsReducer = (state: Array<TodolistType> = initialState , action: ActionType): Array<TodolistType> => {
+   debugger
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(el => el.id !== action.id)
@@ -55,7 +62,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
         }
 
         default:
-            throw new Error('I don\'t understand this type')
+            return state
     }
 }
 
