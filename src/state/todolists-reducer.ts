@@ -37,7 +37,6 @@ const initialState:Array<TodolistType> = [
     {id: todolistID2, title: 'What to buy', filter: 'all'},
 ]
 export const todolistsReducer = (state: Array<TodolistType> = initialState , action: ActionType): Array<TodolistType> => {
-   debugger
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(el => el.id !== action.id)

@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import './App.css';
 import {PropsType, TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
@@ -13,7 +13,8 @@ import {
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
 import {v1} from "uuid";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
 
 export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
 export type TodolistType = {
@@ -30,53 +31,47 @@ function MenuIcon() {
 }
 
 function AppWithRedux() {
-    let todolistID1 =v1()
-    let todolistID2 = v1()
-
+    console.log("App")
     const dispatch = useDispatch();
+    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer,
-        [
-            {id: todolistID1, title: 'What to learn', filter: 'all'},
-            {id: todolistID2, title: 'What to buy', filter: 'all'},
-        ]
+
+    const removeTodolist= useCallback(
+        (todolistId: string) =>{
+            const action = removeTodolistAC(todolistId)
+            dispatch(action)
+        },[]
     )
-    let [tasks, dispatchToTasksReducer] = useReducer(tasksReducer,{
-        [todolistID1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-        ],
-        [todolistID2]: [
-            {id: v1(), title: " book HTML&CSS", isDone: true},
-            {id: v1(), title: " book JS", isDone: true},
-            {id: v1(), title: " book ReactJS", isDone: false},
-            {id: v1(), title: " book Git", isDone: true},
-            {id: v1(), title: " book Figma", isDone: false},
-        ]
-    })
-    console.log(todolists)
 
-    function removeTodolist(todolistId: string) {
-        const action = removeTodolistAC(todolistId)
+    const changeTodolistTitle= useCallback(
+        (todolistId: string, newTitle: string)=> {
+            const action = changeTodolistTitleAC(newTitle, todolistId)
+            dispatch(action)
+        },[]
+    )
+
+    const removeTask = useCallback(
+        (todolistId: string, id: string)=> {
+        const action = removeTaskAC(id, todolistId)
         dispatch(action)
-    }
-    function changeTodolistTitle(todolistId: string, newTitle: string) {
-        const action = changeTodolistTitleAC(newTitle, todolistId)
-        dispatch(action)
-    }
-    function removeTask(todolistId: string, id: string) {
-        const action = removeTaskAC(id,todolistId)
-        dispatch(action)
-    }
-    function changeFilter(todolistId: string, value: FilterValuesType) {
-        const action = changeTodolistFilterAC(value, todolistId)
-        dispatch(action)
-    }
-    function addTask(todolistId: string, title: string) {
-        const action = addTaskAC(todolistId, title)
-        dispatch(action)
-    }
+    },[]
+    )
+
+    const changeFilter=useCallback(
+        (todolistId: string, value: FilterValuesType)=> {
+            const action = changeTodolistFilterAC(value, todolistId)
+            dispatch(action)
+        },[]
+    )
+
+    const addTask = useCallback(
+        (todolistId: string, title: string) =>{
+            const action = addTaskAC(todolistId, title)
+            dispatch(action)
+        },[]
+    )
+
 // function addTask можно записать (сократьть) как:
     /*function addTask(title:string) {
         setTasks([...tasks, {id: crypto.randomUUID(), title: title, isDone: false}])
@@ -91,18 +86,24 @@ function AppWithRedux() {
         }
 
     }*/
-    function changeTasksStatus(todolistId: string, taskId: string, newIsDoneValue: boolean) {
-        const action = changeTaskStatusAC(taskId,newIsDoneValue,todolistId)
+    const changeTasksStatus = useCallback(
+        (todolistId: string, taskId: string, newIsDoneValue: boolean)=>{
+            const action = changeTaskStatusAC(taskId, newIsDoneValue, todolistId)
+            dispatch(action)
+        },[]
+    )
+
+    const changeTaskTitle= useCallback(
+        (todolistId: string, taskId: string, newTitle: string)=> {
+        const action = changeTaskTitleAC(todolistId, taskId, newTitle)
         dispatch(action)
-    }
-    function changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
-        const action = changeTaskTitleAC(todolistId,taskId, newTitle)
-        dispatch(action)
-    }
-    function onClickAddTodolist(title: string) {
+    },[]
+    )
+
+    const onClickAddTodolist=useCallback((title: string)=> {
         const action = addTodolistAC(title)
         dispatch(action)
-    }
+    },[])
 
     return (
         <>
@@ -119,15 +120,8 @@ function AppWithRedux() {
                             todolists.map(el => {
                                 let allTodolistTasks = tasks[el.id] // копия  массива тасок
                                 let tasksForTodolist = allTodolistTasks
-                                if (el.filter === 'active') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
-                                }
-                                if (el.filter === 'completed') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                                }
-                                if (el.filter === 'delete all') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
-                                }
+
+
                                 return <Grid item>
                                     <Paper style={{padding: '10px'}}>
                                         <Todolist

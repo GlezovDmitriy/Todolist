@@ -125,7 +125,7 @@ function App() {
         }
     }
     function onClickAddTodolist(title: string) {
-        let newTodolistId = crypto.randomUUID()
+        let newTodolistId = v1()
         let newTodolist: TodolistType = {
             id: newTodolistId,
             title: title,
