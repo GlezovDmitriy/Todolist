@@ -82,6 +82,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             if (task) {
                 task.isDone = action.payload.isDone
             }
+            stateCopy[action.payload.todolistId] = [...todolistTasks] // копия, т.к. изменили массив
             return stateCopy
         }
         case 'CHANGE-TASK-TITLE': {
@@ -91,6 +92,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             if (task) {
                 task.title = action.payload.title
             }
+            stateCopy[action.payload.todolistId] = [...todolistTasks] // копия, т.к. изменили массив
             return stateCopy
 
         }
