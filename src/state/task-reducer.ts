@@ -75,7 +75,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return stateCopy
         }
         case 'CHANGE-TASK-STATUS': {
-            const stateCopy = {...state}
+            /*const stateCopy = {...state}                             // БЫЛО
             let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
             let task = todolistTasks.find(el => el.id === action.payload.taskId)
             // изменяем значение isDone таски если она нашлась
@@ -83,16 +83,20 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                 task.isDone = action.payload.isDone
             }
             stateCopy[action.payload.todolistId] = [...todolistTasks] // копия, т.к. изменили массив
+            return stateCopy*/
+            const stateCopy = {...state}
+            let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
+            stateCopy[action.payload.todolistId] = todolistTasks.map(t=> t.id === action.payload.taskId
+                ? {...t, isDone: action.payload.isDone}
+                : t)
             return stateCopy
         }
         case 'CHANGE-TASK-TITLE': {
             const stateCopy = {...state}
-            let todolistTasks = stateCopy[action.payload.todolistId]
-            let task = todolistTasks.find(t => t.id === action.payload.taskId)
-            if (task) {
-                task.title = action.payload.title
-            }
-            stateCopy[action.payload.todolistId] = [...todolistTasks] // копия, т.к. изменили массив
+            let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
+            stateCopy[action.payload.todolistId] = todolistTasks.map(t=> t.id === action.payload.taskId
+                ? {...t, title: action.payload.title}
+                : t)
             return stateCopy
 
         }

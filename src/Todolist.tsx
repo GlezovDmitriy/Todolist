@@ -5,8 +5,13 @@ import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {Button, Checkbox, IconButton, TextField, Grid} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
+import {Task} from "./components/Task";
 
-
+export type TaskType = {
+    title: string,
+    id: string,
+    isDone: boolean
+}
 export type PropsType = {
     todolistId: string
     title: string,
@@ -195,50 +200,4 @@ export const Todolist: FC<PropsType> = React.memo(
     },
 )
 
-export type TaskType = {
-    title: string,
-    id: string,
-    isDone: boolean
-}
-export type TaskPropsType = {
-    t: TaskType,
-    removeTask: (todolistId: string, id: string) => void,
-    changeTasksStatus: (todolistId: string, taskId: string, newIsDoneValue: boolean) => void,
-    changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
-    todolistId: string
-}
-const Task = (props: TaskPropsType) => {
-    const onClickRemoveTaskHandler = () => {
-        props.removeTask(props.todolistId, props.t.id)
-    }
-    const onChangeStatusHandler =
-        (e: ChangeEvent<HTMLInputElement>) => props.changeTasksStatus(props.todolistId, props.t.id, e.currentTarget.checked)
-    const onChangeTitleHandler = (newValue: string) => {
-        props.changeTaskTitle(props.todolistId, props.t.id, newValue)
-    }
 
-    return (
-        <div key={props.t.id} className={props.t.isDone ? "task-done" : "task"}>
-            {/*<input
-                                onChange={onChangeStatusHandler}
-                                type="checkbox"
-                                checked={task.isDone}/>*/}
-            <Checkbox color='primary'
-                      onChange={onChangeStatusHandler}
-                      checked={props.t.isDone}
-            />
-            <EditableSpan title={props.t.title} onChange={onChangeTitleHandler}/>
-            {/*<button className={"tasks-btn"} onClick={onClickRemoveTaskHandler}>
-                                X️
-                            </button>*/}
-            <IconButton onClick={onClickRemoveTaskHandler}
-                /*style={{
-                    maxWidth: '20px', maxHeight: '20px',
-                    minWidth: '20px', minHeight: '20px',
-                    marginLeft: '5px'
-                }}*/>
-                <Delete/>
-            </IconButton>
-        </div>
-    )
-}
