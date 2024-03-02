@@ -143,7 +143,7 @@ export const Todolist: FC<PropsType> = React.memo(
 
                 </div>
                 <div className={"tasks"}>
-                    {tasks.map(task => <Task
+                    {tasksForTodolist.map(task => <Task
                         t={task}
                         changeTaskTitle={changeTaskTitle}
                         changeTasksStatus={changeTasksStatus}
