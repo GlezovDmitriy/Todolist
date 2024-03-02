@@ -11,6 +11,7 @@ export const EditableSpan = React.memo(
         console.log('EditableSpan')
         const [editMode, setEditMode] = useState(false)
         const [title, setTitle] = useState(props.title)
+        console.log(title)
         const onDoubleClickHandler = () => {
             setEditMode(true)
         }
@@ -20,7 +21,6 @@ export const EditableSpan = React.memo(
         }
         const activateViewMode=()=>{
             setEditMode(false)
-            console.log(props.title)
         }
         return (
             <div style={{marginTop: '10px'}}>
@@ -38,7 +38,7 @@ export const EditableSpan = React.memo(
                                onBlur={activateViewMode}
                                onChange={onChangeHandler}
                     />
-                    : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>}
+                    : <span onDoubleClick={onDoubleClickHandler}>{title}</span>}
             </div>
         );
     }

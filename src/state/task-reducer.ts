@@ -1,5 +1,5 @@
 import {TaskType} from "../Todolist";
-import {TasksStateType, TodolistType} from "../App";
+import {TasksStateType, TodolistType} from "../AppWithRedux";
 import {AddTodolistActionType, RemoveTodolistActionType, todolistID1, todolistID2} from "./todolists-reducer";
 import {v1} from "uuid";
 
@@ -94,7 +94,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'CHANGE-TASK-TITLE': {
             const stateCopy = {...state}
             let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
-            stateCopy[action.payload.todolistId] = todolistTasks.map(t=> t.id === action.payload.taskId
+            stateCopy[action.payload.todolistId] =
+                todolistTasks.map(t=> t.id === action.payload.taskId
                 ? {...t, title: action.payload.title}
                 : t)
             return stateCopy
