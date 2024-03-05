@@ -10,7 +10,7 @@ export  default {
 }
 const changeTaskTitleCallback = action('Title changed')
 const changeTaskStatusCallback = action('Status changed')
-const removeTaskCallback = action('Title changed')
+const removeTaskCallback = action('remove')
 export const TaskBaseExample = () =>{
     return <>
         <Task
