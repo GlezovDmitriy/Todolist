@@ -15,6 +15,7 @@ import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksRed
 import {v1} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {useAppWithRedux} from "./components/AppWithRedux/hooks/useAppWithRedux";
 
 export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
 export type TodolistType = {
@@ -32,7 +33,18 @@ function MenuIcon() {
 
 function AppWithRedux() {
     console.log("App")
-    const dispatch = useDispatch();
+    const {todolists,
+        tasks,
+        removeTodolist,
+        changeTaskTitle,
+        changeTasksStatus,
+        addTask,
+        removeTask,
+        changeFilter,
+        changeTodolistTitle,
+        onClickAddTodolist
+    } = useAppWithRedux()
+/*    const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
@@ -73,19 +85,19 @@ function AppWithRedux() {
     )
 
 // function addTask можно записать (сократьть) как:
-    /*function addTask(title:string) {
+    /!*function addTask(title:string) {
         setTasks([...tasks, {id: crypto.randomUUID(), title: title, isDone: false}])
     }
-    */
+    *!/
 
-    /*function changeTasksStatus(id:string, isDone: boolean){
+    /!*function changeTasksStatus(id:string, isDone: boolean){
         let task = tasks.find(t => t.id === id)
         if (task) {
             task.isDone = isDone;
             setTasks([...tasks])
         }
 
-    }*/
+    }*!/
     const changeTasksStatus = useCallback(
         (todolistId: string, taskId: string, newIsDoneValue: boolean)=>{
             const action = changeTaskStatusAC(taskId, newIsDoneValue, todolistId)
@@ -103,7 +115,7 @@ function AppWithRedux() {
     const onClickAddTodolist=useCallback((title: string)=> {
         const action = addTodolistAC(title)
         dispatch(action)
-    },[dispatch])
+    },[dispatch])*/
 
     return (
         <>

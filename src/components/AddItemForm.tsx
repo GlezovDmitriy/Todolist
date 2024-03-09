@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@mui/material";
+import {useAddItemForm} from "../AddItemForm/hooks/useAddItemForm";
 
 type AddItemFormType = {
     addItem: (title: string) => void
@@ -7,7 +8,12 @@ type AddItemFormType = {
 export const AddItemForm = React.memo(
     (props: AddItemFormType) => {
         console.log('ItemForm')
-        let [title, setTitle] = useState('')
+        const{title,
+            inputError,
+            onChangeHandler,
+            onKeyDownHandler,
+            addItem} = useAddItemForm(props.addItem)
+        /*let [title, setTitle] = useState('')
         let [inputError, setInputError] = useState(false)
 
         const addItem = () => {
@@ -25,7 +31,7 @@ export const AddItemForm = React.memo(
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             inputError && setInputError(false)                                                    //сбрасываем ошибку, если до этого была при вводе пробелов
             setTitle(e.currentTarget.value)                                        // отрисовывает каждый новый символ в инпуте
-        }
+        }*/
         //const isAddBtnDisabled = title === '' || title.length >= 15
         return (
             <div>
