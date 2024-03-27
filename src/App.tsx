@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
 import {PropsType, TaskType, Todolist} from "./Todolist";
-import {AddItemForm} from "./components/AddItemForm";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {AppBarFC} from "./components/AppBarFC";
 import {v1} from "uuid";
@@ -52,7 +52,7 @@ function App() {
             {id: crypto.randomUUID(), title: " book Figma", isDone: false},
         ]
     })
-    console.log(todolists)
+
 
     function removeTodolist(todolistId: string) {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
@@ -106,7 +106,8 @@ function App() {
         }
 
     }*/
-    function changeTasksStatus(todolistId: string, taskId: string, newIsDoneValue: boolean) {
+    const changeTasksStatus = useCallback(
+        (todolistId: string, taskId: string, newIsDoneValue: boolean) => {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
         // изменяем значение isDone таски если она нашлась
@@ -114,8 +115,10 @@ function App() {
             task.isDone = newIsDoneValue
             setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
-    }
-    function changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
+    },[]
+    )
+    const changeTaskTitle = useCallback(
+        (todolistId: string, taskId: string, newTitle: string) => {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
         // изменяем значение title таски если оно нашлось
@@ -123,7 +126,8 @@ function App() {
             task.title = newTitle
             setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
-    }
+    },[]
+    )
     function onClickAddTodolist(title: string) {
         let newTodolistId = v1()
         let newTodolist: TodolistType = {

@@ -1,11 +1,10 @@
-import React, {useRef, useState, KeyboardEvent, ChangeEvent, FC, useCallback} from "react";
-import {FullInput} from "./components/FullInput";
+import React, {ChangeEvent, FC, KeyboardEvent, useCallback, useState} from "react";
 import {FilterValuesType} from "./App";
-import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
-import {Button, Checkbox, IconButton, TextField, Grid} from "@mui/material";
+import {Button, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
 import {Task} from "./components/Task";
+
 
 export type TaskType = {
     title: string,
@@ -166,6 +165,7 @@ export const Todolist: FC<PropsType> = React.memo(
                         }}
                     >All
                     </Button>
+
                     <Button
                         variant={filter === 'active' ? "outlined" : 'text'}
                         style={{
@@ -184,16 +184,6 @@ export const Todolist: FC<PropsType> = React.memo(
                             changeFilter(todolistId, 'completed')
                         }}>Completed
                     </Button>
-                    {/* <Button
-                    variant={filter === 'delete all' ? "outlined" : 'text'}
-                    style={{
-                        fontSize: '10px', fontWeight: 'bold',
-                        marginLeft: '5px'
-                    }}
-                    onClick={() => {
-                        changeFilter(todolistId, 'delete all')
-                    }}>Delete all
-                </Button>*/}
                 </div>
             </div>
         )

@@ -1,13 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@mui/material";
-import {useAddItemForm} from "../AddItemForm/hooks/useAddItemForm";
+import {useAddItemForm} from "./hooks/useAddItemForm";
 
 type AddItemFormType = {
     addItem: (title: string) => void
 }
 export const AddItemForm = React.memo(
     (props: AddItemFormType) => {
-        console.log('ItemForm')
+        console.log('addItemForm')
         const{title,
             inputError,
             onChangeHandler,

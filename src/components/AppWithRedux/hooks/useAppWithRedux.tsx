@@ -8,7 +8,7 @@ import {
     removeTodolistAC
 } from "../../../state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../state/task-reducer";
-import {FilterValuesType, TasksStateType, TodolistType} from "../../../AppWithRedux";
+import {FilterValuesType, TasksStateType, TodolistType} from "../AppWithRedux";
 
 export const useAppWithRedux = ()=>{
     const dispatch = useDispatch();

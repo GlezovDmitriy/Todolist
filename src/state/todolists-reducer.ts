@@ -1,18 +1,21 @@
-import {FilterValuesType, TodolistType} from "../AppWithRedux";
+import {FilterValuesType, TodolistType} from "../components/AppWithRedux/AppWithRedux";
 import {v1} from "uuid";
 /*type ActionType = {
     type: string
     [key: string]: any
 }*/
-export type RemoveTodolistActionType = {
+/*export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
     id: string
-}
-export type AddTodolistActionType = {
+}*/
+// Можно определить как ниже, только в АС (снизу) убрать тип и дописать as const
+export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
+/*export type AddTodolistActionType = {
     type: 'ADD-TODOLIST',
     title: string,
     todolistId: string
-}
+}*/
+export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type ChangeTodolistTitleActionType = {
     type: 'CHANGE-TODOLIST-TITLE',
     id: string,
@@ -72,11 +75,11 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState , act
     }
 }
 
-export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => {
-    return {type: 'REMOVE-TODOLIST', id: todolistId}
+export const removeTodolistAC = (todolistId: string) => {
+    return {type: 'REMOVE-TODOLIST', id: todolistId} as const
 }
-export const addTodolistAC = (title: string): AddTodolistActionType => {
-    return {type: 'ADD-TODOLIST', title: title, todolistId: v1()}
+export const addTodolistAC = (title: string) => {
+    return {type: 'ADD-TODOLIST', title: title, todolistId: v1()} as const
 }
 export const changeTodolistTitleAC = (newTitle: string, id: string): ChangeTodolistTitleActionType => {
     return {type: 'CHANGE-TODOLIST-TITLE', title: newTitle, id: id}
