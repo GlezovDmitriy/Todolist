@@ -40,7 +40,20 @@ type GetTasksType ={
     error:string|null
     items:TaskType[]
 }
-
+type DeleteTasksType ={
+    resultCode: number
+    messages: string[]
+    data: {}
+}
+type UpdateModelType = {
+    description: string
+    title: string
+    //completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+}
 export const todolistsApi = {
     getTodoLists(){
 return instance.get<TodolistType[]>('todo-lists')               ///instance
@@ -57,6 +70,15 @@ return instance.get<TodolistType[]>('todo-lists')               ///instance
     ///  for tasks
     getTasks(todolistId:string){
         return instance.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)               ///instance
+    },
+    deleteTasks(todolistId:string, taskId: string){
+        return instance.delete<DeleteTasksType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+    },
+    createTask(todolistId:string, taskTitle: string){
+        return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks`, {title:taskTitle})
+    },
+    updateTask(todolistId:string, taskId: string, model:UpdateModelType ){
+        return instance.put<DeleteTasksType>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
    /* createTodoLists(title: string){
 return axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists',{title}, settings)
