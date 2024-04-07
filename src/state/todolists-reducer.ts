@@ -26,19 +26,32 @@ export type ChangeTodolistFilterActionType = {
     id: string,
     filter: FilterValuesType
 }
+export type SetTodolistsActionType = {
+    type: 'SET-TODOLISTS',
+    todolists: TodolistType[],
+
+}
 type ActionType = RemoveTodolistActionType
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
+| SetTodolistsActionType
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export let todolistID1 =v1()
+
+/*export let todolistID1 =v1()          ///////////////переходим на данные с сервера
 export let todolistID2 = v1()
 const initialState:Array<TodolistType> = [
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
-]
+]*/
+const initialState:Array<TodolistDomainType> = []
+//export type FilterValuesType = 'all' | 'active' | 'completed'
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+}
+
 export const todolistsReducer = (state: Array<TodolistType> = initialState , action: ActionType): Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
@@ -67,7 +80,13 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState , act
                 todolist.filter = action.filter
             }           // фильтр - это свойство,  а не метод!!!
             return [...state]
-
+        }
+        case 'SET-TODOLISTS': {
+            return action.todolists.map(tl => {
+               return{
+                   ...tl, filter: 'all'
+               }
+            } )
         }
 
         default:
@@ -86,4 +105,7 @@ export const changeTodolistTitleAC = (newTitle: string, id: string): ChangeTodol
 }
 export const changeTodolistFilterAC = (filter: FilterValuesType, id: string): ChangeTodolistFilterActionType => {
     return {type: 'CHANGE-TODOLIST-FILTER', filter: filter, id: id}
+}
+export const setTodolistsAC = (todolists: TodolistType[]): SetTodolistsActionType => {
+    return {type: 'SET-TODOLISTS', todolists: todolists}
 }
