@@ -1,5 +1,6 @@
-import {FilterValuesType, TodolistType} from "../components/AppWithRedux/AppWithRedux";
+import {FilterValuesType} from "../components/AppWithRedux/AppWithRedux";
 import {v1} from "uuid";
+import {TodolistType} from "../api/todolists-api";
 /*type ActionType = {
     type: string
     [key: string]: any
@@ -35,7 +36,7 @@ type ActionType = RemoveTodolistActionType
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
-| SetTodolistsActionType
+    | SetTodolistsActionType
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
@@ -46,19 +47,19 @@ const initialState:Array<TodolistType> = [
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
 ]*/
-const initialState:Array<TodolistDomainType> = []
+const initialState: Array<TodolistDomainType> = []
 //export type FilterValuesType = 'all' | 'active' | 'completed'
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-export const todolistsReducer = (state: Array<TodolistType> = initialState , action: ActionType): Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(el => el.id !== action.id)
         }
         case 'ADD-TODOLIST': {
-            return [ {id: action.todolistId, title: action.title, filter: 'all'}, ...state]
+            return [{id: action.todolistId, title: action.title, filter: 'all'}, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
             let stateCopy = [...state]
@@ -69,7 +70,7 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState , act
             return stateCopy*/
             let todolist = stateCopy
             console.log(Array.isArray(todolist))
-            stateCopy = todolist.map(tl=> tl.id === action.id
+            stateCopy = todolist.map(tl => tl.id === action.id
                 ? {...tl, title: action.title}
                 : tl)
             return stateCopy
@@ -83,10 +84,10 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState , act
         }
         case 'SET-TODOLISTS': {
             return action.todolists.map(tl => {
-               return{
-                   ...tl, filter: 'all'
-               }
-            } )
+                return {
+                    ...tl, filter: 'all'
+                }
+            })
         }
 
         default:

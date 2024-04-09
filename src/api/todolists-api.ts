@@ -16,13 +16,13 @@ type ResponseType<T = {}> = {
     messages: string[],
     data: T
 }
-type TodolistType = {
+export type TodolistType = {
     "id": string,
     "title":string,
     "addedDate": string,
     "order": number
 }
-type TaskType = {
+export type TaskType = {
     description: string
     title: string
     completed: boolean

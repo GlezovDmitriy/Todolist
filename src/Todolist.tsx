@@ -4,13 +4,14 @@ import {EditableSpan} from "./components/EditableSpan";
 import {Button, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
 import {Task} from "./components/Task";
+import {TaskType} from "./api/todolists-api";
 
 
-export type TaskType = {
+/*export type TaskType = {
     title: string,
     id: string,
     isDone: boolean
-}
+}*/
 export type PropsType = {
     todolistId: string
     title: string,

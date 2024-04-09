@@ -1,6 +1,10 @@
 import {TaskType} from "../Todolist";
 import {TasksStateType, TodolistType} from "../components/AppWithRedux/AppWithRedux";
-import {AddTodolistActionType, RemoveTodolistActionType, todolistID1, todolistID2} from "./todolists-reducer";
+import {
+    AddTodolistActionType,
+    RemoveTodolistActionType,
+    setTodolistsAC, SetTodolistsActionType, /*todolistID1, todolistID2*/
+} from "./todolists-reducer";
 import {v1} from "uuid";
 
 export type RemoveTaskActionType = {
@@ -40,7 +44,8 @@ type ActionsType = RemoveTaskActionType
     | ChangeTaskTitleActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
-const initialState:TasksStateType = {
+    | SetTodolistsActionType
+/*const initialState:TasksStateType = {         // до подключения сервера
     [todolistID1]: [
         {id: v1(), title: "HTML&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
@@ -53,7 +58,8 @@ const initialState:TasksStateType = {
         {id: v1(), title: " book Git", isDone: true},
         {id: v1(), title: " book Figma", isDone: false},
     ]
-}
+}*/
+const initialState: TasksStateType = {}
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
@@ -86,7 +92,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return stateCopy*/
             const stateCopy = {...state}
             let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
-            stateCopy[action.payload.todolistId] = todolistTasks.map(t=> t.id === action.payload.taskId
+            stateCopy[action.payload.todolistId] = todolistTasks.map(t => t.id === action.payload.taskId
                 ? {...t, isDone: action.payload.isDone}
                 : t)
             return stateCopy
@@ -95,9 +101,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const stateCopy = {...state}
             let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
             stateCopy[action.payload.todolistId] =
-                todolistTasks.map(t=> t.id === action.payload.taskId
-                ? {...t, title: action.payload.title}
-                : t)
+                todolistTasks.map(t => t.id === action.payload.taskId
+                    ? {...t, title: action.payload.title}
+                    : t)
             return stateCopy
 
         }
@@ -112,6 +118,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete stateCopy[action.id]
             return stateCopy
         }
+        case 'SET-TODOLISTS': {
+            const stateCopy = {...state}
+            action.todolists.forEach((tl =>{
+                stateCopy[tl.id] = []
+            }))
+            return stateCopy
+        }
+
         default:
             return state
     }

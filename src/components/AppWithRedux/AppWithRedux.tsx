@@ -7,11 +7,11 @@ import {AppBarFC} from "../AppBarFC";
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
 
 export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
-export type TodolistType = {
+/*export type TodolistType = {
     id: string,
     title: string,
     filter: FilterValuesType
-}
+}*/
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 

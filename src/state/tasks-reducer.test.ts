@@ -1,20 +1,20 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, tasksReducer} from './task-reducer';
 import {TasksStateType} from '../App';
 import {removeTaskAC} from "./task-reducer";
-import {removeTodolistAC} from "./todolists-reducer";
+import {removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
 
 let startState: TasksStateType
-beforeEach(()=>{
+beforeEach(() => {
     startState = {
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            {id: "1", title: "CSS", isDone: false},
+            {id: "2", title: "JS", isDone: true},
+            {id: "3", title: "React", isDone: false}
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
+            {id: "1", title: "bread", isDone: false},
+            {id: "2", title: "milk", isDone: true},
+            {id: "3", title: "tea", isDone: false}
         ]
     };
 })
@@ -37,20 +37,20 @@ test('correct task should be deleted from correct array', () => {
 
     expect(endState).toEqual({
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            {id: "1", title: "CSS", isDone: false},
+            {id: "2", title: "JS", isDone: true},
+            {id: "3", title: "React", isDone: false}
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "3", title: "tea", isDone: false }
+            {id: "1", title: "bread", isDone: false},
+            {id: "3", title: "tea", isDone: false}
         ]
     });
 
 });
 test('correct task should be added to correct array', () => {
 
-    const action = addTaskAC('todolistId2','juce' )
+    const action = addTaskAC('todolistId2', 'juce')
     const endState = tasksReducer(startState, action)
 
     expect(endState['todolistId1'].length).toBe(3)
@@ -87,4 +87,16 @@ test('property with todolistId should be deleted', () => {
 
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
+})
+test('empty arrays should be added when we set todolists', () => {
+    const action = setTodolistsAC([
+        {id: "1", title: "CSS", filter:'all'},
+        {id: "2", title: "JS", filter:'all'},
+        {id: "3", title: "React",  filter:'all'}
+    ],)
+    const endState = tasksReducer({}, action)
+    const keys = Object.keys(endState)
+
+    expect(keys.length).toBe(3)
+    expect(endState['1']).toStrictEqual([])
 })
