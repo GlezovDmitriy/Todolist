@@ -1,24 +1,24 @@
 import React, {useReducer, useState} from 'react';
 import './App.css';
-import {PropsType, TaskType, Todolist} from "./Todolist";
+import {PropsType,  Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {AppBarFC} from "./components/AppBarFC";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, FilterValuesType,
     removeTodolistAC,
     todolistsReducer
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
 import {v1} from "uuid";
+import {TaskType} from "./api/todolists-api";
 
-export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
-export type TodolistType = {
+/*export type TodolistType = {
     id: string,
     title: string,
-    filter: FilterValuesType
+    filter: FilterValuesType*/
 }
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -43,14 +43,12 @@ function AppWithReducers() {
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
+
         ],
         [todolistID2]: [
             {id: v1(), title: " book HTML&CSS", isDone: true},
             {id: v1(), title: " book JS", isDone: true},
-            {id: v1(), title: " book ReactJS", isDone: false},
-            {id: v1(), title: " book Git", isDone: true},
-            {id: v1(), title: " book Figma", isDone: false},
+
         ]
     })
     console.log(todolists)
@@ -109,7 +107,7 @@ function AppWithReducers() {
         }
 
     }*/
-    function changeTasksStatus(todolistId: string, taskId: string, newIsDoneValue: boolean) {
+    function changeTasksStatus(todolistId: string, taskId: string, status:TaskStatuses) {
         const action = changeTaskStatusAC(taskId,newIsDoneValue,todolistId)
         dispatchToTasksReducer(action)
         /*let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID

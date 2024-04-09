@@ -8,7 +8,7 @@ import {log} from "util";
 export type TaskPropsType = {
     t: TaskType,
     removeTask: (todolistId: string, id: string) => void,
-    changeTasksStatus: (todolistId: string, taskId: string, newIsDoneValue: boolean) => void,
+    changeTasksStatus: (todolistId: string, taskId: string, status:TaskStatuses) => void,
     changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     todolistId: string
 }

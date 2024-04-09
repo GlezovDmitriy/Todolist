@@ -59,7 +59,7 @@ export const useAppWithRedux = ()=>{
     )
 
     const changeTasksStatus = useCallback(
-        (todolistId: string, taskId: string, newIsDoneValue: boolean)=>{
+        (todolistId: string, taskId: string, status:TaskStatuses)=>{
             const action = changeTaskStatusAC(taskId, newIsDoneValue, todolistId)
             dispatch(action)
         },[dispatch]

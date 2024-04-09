@@ -1,4 +1,4 @@
-import {FilterValuesType} from "../components/AppWithRedux/AppWithRedux";
+
 import {v1} from "uuid";
 import {TodolistType} from "../api/todolists-api";
 /*type ActionType = {
@@ -47,19 +47,21 @@ const initialState:Array<TodolistType> = [
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
 ]*/
+
 const initialState: Array<TodolistDomainType> = []
-//export type FilterValuesType = 'all' | 'active' | 'completed'
+export type FilterValuesType = 'all' | 'active' | 'completed'
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(el => el.id !== action.id)
         }
         case 'ADD-TODOLIST': {
-            return [{id: action.todolistId, title: action.title, filter: 'all'}, ...state]
+            return [{id: action.todolistId, title: action.title, filter: 'all',order: 0,
+                addedDate: ''}, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
             let stateCopy = [...state]

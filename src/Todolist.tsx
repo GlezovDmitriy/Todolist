@@ -1,10 +1,10 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useCallback, useState} from "react";
-import {FilterValuesType} from "./App";
 import {EditableSpan} from "./components/EditableSpan";
 import {Button, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
 import {Task} from "./components/Task";
-import {TaskType} from "./api/todolists-api";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {FilterValuesType} from "./state/todolists-reducer";
 
 
 /*export type TaskType = {
@@ -20,7 +20,7 @@ export type PropsType = {
     removeTask: (todolistId: string, id: string) => void,
     changeFilter: (todolistId: string, value: FilterValuesType) => void,
     addTask: (todolistId: string, title: string) => void,
-    changeTasksStatus: (todolistId: string, taskId: string, newIsDoneValue: boolean) => void,
+    changeTasksStatus: (todolistId: string, taskId: string, status:TaskStatuses) => void,
     changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
@@ -83,10 +83,10 @@ export const Todolist: FC<PropsType> = React.memo(
         )
         let tasksForTodolist = tasks
         if (filter === 'active') {
-            tasksForTodolist = tasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+            tasksForTodolist = tasks.filter(task => task.status === TaskStatuses.New) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
         }
         if (filter === 'completed') {
-            tasksForTodolist = tasks.filter(task => task.isDone)
+            tasksForTodolist = tasks.filter(task => task.status === TaskStatuses.Completed)
         }
         return (
             <div>

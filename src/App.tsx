@@ -1,20 +1,22 @@
 import React, {useCallback, useState} from 'react';
 import './App.css';
-import {PropsType, TaskType, Todolist} from "./Todolist";
+import {Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Container, Grid, Paper} from "@mui/material";
 import {AppBarFC} from "./components/AppBarFC";
 import {v1} from "uuid";
+import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
+import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolists-api";
 
 /*import * as crypto from "crypto";*/
 
 
-export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
-export type TodolistType = {
+
+/*export type TodolistType = {
     id: string,
     title: string,
     filter: FilterValuesType
-}
+}*/
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -28,10 +30,12 @@ function App() {
     let todolistID2 = v1()
 
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>>(
+    let [todolists, setTodolists] = useState<Array<TodolistDomainType>>(
         [
-            {id: todolistID1, title: 'What to learn', filter: 'all'},
-            {id: todolistID2, title: 'What to buy', filter: 'all'},
+            {id: todolistID1, title: 'What to learn', filter: 'all',order: 0,
+                addedDate: ''},
+            {id: todolistID2, title: 'What to buy', filter: 'all',order: 0,
+                addedDate: ''},
         ]
     )
 
@@ -40,16 +44,17 @@ function App() {
 
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
-            {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
-            {id: crypto.randomUUID(), title: "JS", isDone: true},
-            {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
+            {id: crypto.randomUUID(), title: "HTML&CSS", status: TaskStatuses.Completed, description:'',
+            priority:TaskPriorities.Low, startDate:'', deadline:'',todoListId:todolistID1, order:0, addedDate:''},
+            {id: crypto.randomUUID(), title: "JS", status: TaskStatuses.Completed, description:'',
+                priority:TaskPriorities.Low, startDate:'', deadline:'',todoListId:todolistID1, order:0, addedDate:''},
+
         ],
         [todolistID2]: [
-            {id: crypto.randomUUID(), title: " book HTML&CSS", isDone: true},
-            {id: crypto.randomUUID(), title: " book JS", isDone: true},
-            {id: crypto.randomUUID(), title: " book ReactJS", isDone: false},
-            {id: crypto.randomUUID(), title: " book Git", isDone: true},
-            {id: crypto.randomUUID(), title: " book Figma", isDone: false},
+            {id: crypto.randomUUID(), title: "React", status: TaskStatuses.Completed, description:'',
+                priority:TaskPriorities.Low, startDate:'', deadline:'',todoListId:todolistID2, order:0, addedDate:''},
+            {id: crypto.randomUUID(), title: "Redux", status: TaskStatuses.Completed, description:'',
+                priority:TaskPriorities.Low, startDate:'', deadline:'',todoListId:todolistID2, order:0, addedDate:''},
         ]
     })
 
@@ -86,7 +91,8 @@ function App() {
         const newTask: TaskType = {
             id: v1(),
             title: title,
-            isDone: false
+            status: TaskStatuses.New, description:'',
+            priority:TaskPriorities.Low, startDate:'', deadline:'',todoListId:todolistId, order:0, addedDate:''
         }
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         tasks[todolistId] = [newTask, ...todolistTasks]  // перезапись массива с добавлением новой таски в начало
@@ -107,12 +113,12 @@ function App() {
 
     }*/
     const changeTasksStatus = useCallback(
-        (todolistId: string, taskId: string, newIsDoneValue: boolean) => {
+        (todolistId: string, taskId: string, status:TaskStatuses ) => {
         let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
         // изменяем значение isDone таски если она нашлась
         if (task) {
-            task.isDone = newIsDoneValue
+            task.status = status
             setTasks({...tasks}) // сетаем копию объекта в стейт для перерисовки
         }
     },[]
@@ -130,10 +136,12 @@ function App() {
     )
     function onClickAddTodolist(title: string) {
         let newTodolistId = v1()
-        let newTodolist: TodolistType = {
+        let newTodolist: TodolistDomainType = {
             id: newTodolistId,
             title: title,
-            filter: 'all'
+            filter: 'all',
+            addedDate: '',
+            order: 0
         }
         setTodolists([newTodolist, ...todolists])
         setTasks({
@@ -158,13 +166,10 @@ function App() {
                                 let allTodolistTasks = tasks[el.id] // копия  массива тасок
                                 let tasksForTodolist = allTodolistTasks
                                 if (el.filter === 'active') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                                    tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.New) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
                                 }
                                 if (el.filter === 'completed') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                                }
-                                if (el.filter === 'delete all') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
+                                    tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.Completed)
                                 }
                                 return <Grid item>
                                     <Paper style={{padding: '10px'}}>

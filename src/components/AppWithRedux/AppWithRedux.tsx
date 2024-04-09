@@ -1,10 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import {TaskType, Todolist} from "../../Todolist";
+import {Todolist} from "../../Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Container, Grid, Paper} from "@mui/material";
 import {AppBarFC} from "../AppBarFC";
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
+import {TaskType} from "../../api/todolists-api";
 
 export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
 /*export type TodolistType = {
