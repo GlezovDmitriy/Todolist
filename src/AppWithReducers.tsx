@@ -13,13 +13,9 @@ import {
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
 import {v1} from "uuid";
-import {TaskType} from "./api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolists-api";
 
-/*export type TodolistType = {
-    id: string,
-    title: string,
-    filter: FilterValuesType*/
-}
+
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -35,19 +31,28 @@ function AppWithReducers() {
 
     let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer,
         [
-            {id: todolistID1, title: 'What to learn', filter: 'all'},
-            {id: todolistID2, title: 'What to buy', filter: 'all'},
+            {id: todolistID1, title: 'What to learn', filter: 'all', addedDate:'', order:0},
+            {id: todolistID2, title: 'What to buy', filter: 'all', addedDate:'', order:0},
         ]
     )
     let [tasks, dispatchToTasksReducer] = useReducer(tasksReducer,{
         [todolistID1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, addedDate:'',
+                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
+                deadline:'',todoListId:todolistID1},
+            {id: v1(), title: "JS", status: TaskStatuses.Completed, addedDate:'',
+                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
+                deadline:'',todoListId:todolistID1},
+            /*{id: v1(), title: "JS", status: TaskStatuses.Completed, addedDate:'', order:0},*/
 
         ],
         [todolistID2]: [
-            {id: v1(), title: " book HTML&CSS", isDone: true},
-            {id: v1(), title: " book JS", isDone: true},
+            {id: v1(), title: "REACT", status: TaskStatuses.Completed, addedDate:'',
+                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
+                deadline:'',todoListId:todolistID2},
+            {id: v1(), title: "HTML", status: TaskStatuses.Completed, addedDate:'',
+                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
+                deadline:'',todoListId:todolistID2},
 
         ]
     })
@@ -108,7 +113,7 @@ function AppWithReducers() {
 
     }*/
     function changeTasksStatus(todolistId: string, taskId: string, status:TaskStatuses) {
-        const action = changeTaskStatusAC(taskId,newIsDoneValue,todolistId)
+        const action = changeTaskStatusAC(taskId,status,todolistId)
         dispatchToTasksReducer(action)
         /*let todolistTasks = tasks[todolistId]  // новая переменная с нужным массивом(объектом) по ID
         let task = todolistTasks.find(el => el.id === taskId)
@@ -162,13 +167,10 @@ function AppWithReducers() {
                                 let allTodolistTasks = tasks[el.id] // копия  массива тасок
                                 let tasksForTodolist = allTodolistTasks
                                 if (el.filter === 'active') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => !task.isDone) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
+                                    tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.New) // сокращенно: !task.isDone -это тоже самое что и: task.isDone === false
                                 }
                                 if (el.filter === 'completed') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                                }
-                                if (el.filter === 'delete all') {
-                                    tasksForTodolist = allTodolistTasks.filter(task => (!task.isDone && task.isDone))
+                                    tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.Completed)
                                 }
                                 return <Grid item>
                                     <Paper style={{padding: '10px'}}>

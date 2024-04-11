@@ -1,5 +1,5 @@
-import {TaskType} from "../Todolist";
-import {TasksStateType, TodolistType} from "../components/AppWithRedux/AppWithRedux";
+
+import {TasksStateType, } from "../components/AppWithRedux/AppWithRedux";
 import {
     AddTodolistActionType,
     RemoveTodolistActionType,
@@ -26,7 +26,7 @@ export type ChangeTaskStatusActionType = {
     payload: {
         todolistId: string,
         taskId: string,
-        isDone: boolean
+        status: number
     }
 }
 export type ChangeTaskTitleActionType = {
@@ -138,11 +138,11 @@ export const addTaskAC = (todolistId: string, title: string): AddTaskActionType 
     return {type: 'ADD-TASK', payload: {todolistId, title}}
 }
 export const changeTaskStatusAC = (taskId: string,
-                                   isDone: boolean,
+                                   status: number,
                                    todolistId: string): ChangeTaskStatusActionType => {
     return {
         type: 'CHANGE-TASK-STATUS', payload: {
-            todolistId, taskId, isDone
+            todolistId, taskId, status
         }
     }
 }
