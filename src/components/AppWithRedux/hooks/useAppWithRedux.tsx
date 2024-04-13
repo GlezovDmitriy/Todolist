@@ -4,24 +4,24 @@ import {useCallback, useEffect} from "react";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValuesType,
+    changeTodolistTitleAC, fetchTodolistsTC,  FilterValuesType,
     removeTodolistAC, setTodolistsAC, TodolistDomainType
 } from "../../../state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../state/task-reducer";
 import {TasksStateType} from "../AppWithRedux";
 import {TaskStatuses, todolistsApi} from "../../../api/todolists-api";
+import {AnyAction} from "redux";
+import {ThunkDispatch} from "redux-thunk";
 
 export const useAppWithRedux = ()=>{
-    const dispatch = useDispatch();
+    const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+    //const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     useEffect(() => {
-        todolistsApi.getTodoLists()
-            .then(res =>{
-                const action = setTodolistsAC(res.data)
-                dispatch(action)
-            })
+
+        dispatch(fetchTodolistsTC())// из tl-reducer
     }, []);
 
 

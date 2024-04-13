@@ -1,12 +1,11 @@
-
-import {TasksStateType, } from "../components/AppWithRedux/AppWithRedux";
+import {TasksStateType,} from "../components/AppWithRedux/AppWithRedux";
 import {
     AddTodolistActionType,
     RemoveTodolistActionType,
     setTodolistsAC, SetTodolistsActionType, /*todolistID1, todolistID2*/
 } from "./todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolists-api";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -38,7 +37,11 @@ export type ChangeTaskTitleActionType = {
         title: string,
     }
 }
-
+export type SetTasksActionType = {
+    type: 'SET-TASKS'
+    tasks: TaskType[]
+    todolistId: string
+}
 type ActionsType = RemoveTaskActionType
     | AddTaskActionType
     | ChangeTaskStatusActionType
@@ -46,6 +49,7 @@ type ActionsType = RemoveTaskActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
+    | SetTasksActionType
 /*const initialState:TasksStateType = {         // до подключения сервера
     [todolistID1]: [
         {id: v1(), title: "HTML&CSS", isDone: true},
@@ -76,9 +80,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                 id: v1(),
                 title: action.payload.title,
                 status: TaskStatuses.New,
-                addedDate:'',
-                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
-                deadline:'',
+                addedDate: '',
+                order: 0, description: '', priority: TaskPriorities.Low, startDate: '',
+                deadline: '',
                 todoListId: action.payload.todolistId
             }
             let tasks = state[action.payload.todolistId]
@@ -125,12 +129,16 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case 'SET-TODOLISTS': {
             const stateCopy = {...state}
-            action.todolists.forEach((tl =>{
+            action.todolists.forEach((tl => {
                 stateCopy[tl.id] = []
             }))
             return stateCopy
         }
-
+        case 'SET-TASKS':{
+            const stateCopy = {...state}
+stateCopy[action.todolistId] = action.tasks
+            return stateCopy
+        }
         default:
             return state
     }
