@@ -7,7 +7,7 @@ import {AppBarFC} from "../AppBarFC";
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
 import {TaskType} from "../../api/todolists-api";
 
-export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'
+/*export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'*/
 /*export type TodolistType = {
     id: string,
     title: string,

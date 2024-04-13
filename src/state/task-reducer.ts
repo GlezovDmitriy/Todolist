@@ -6,6 +6,7 @@ import {
     setTodolistsAC, SetTodolistsActionType, /*todolistID1, todolistID2*/
 } from "./todolists-reducer";
 import {v1} from "uuid";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -74,7 +75,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const newTask = {
                 id: v1(),
                 title: action.payload.title,
-                isDone: false,
+                status: TaskStatuses.New,
+                addedDate:'',
+                order:0, description:'', priority:TaskPriorities.Low, startDate:'',
+                deadline:'',
+                todoListId: action.payload.todolistId
             }
             let tasks = state[action.payload.todolistId]
             stateCopy[action.payload.todolistId] = [newTask, ...tasks]
@@ -93,7 +98,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const stateCopy = {...state}
             let todolistTasks = stateCopy[action.payload.todolistId]  // новая переменная с нужным массивом(объектом) по ID
             stateCopy[action.payload.todolistId] = todolistTasks.map(t => t.id === action.payload.taskId
-                ? {...t, isDone: action.payload.isDone}
+                ? {...t, status: action.payload.status}
                 : t)
             return stateCopy
         }

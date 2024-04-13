@@ -4,12 +4,12 @@ import {useCallback, useEffect} from "react";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, FilterValuesType,
     removeTodolistAC, setTodolistsAC, TodolistDomainType
 } from "../../../state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../state/task-reducer";
-import {FilterValuesType, TasksStateType} from "../AppWithRedux";
-import {todolistsApi} from "../../../api/todolists-api";
+import {TasksStateType} from "../AppWithRedux";
+import {TaskStatuses, todolistsApi} from "../../../api/todolists-api";
 
 export const useAppWithRedux = ()=>{
     const dispatch = useDispatch();
@@ -60,7 +60,7 @@ export const useAppWithRedux = ()=>{
 
     const changeTasksStatus = useCallback(
         (todolistId: string, taskId: string, status:TaskStatuses)=>{
-            const action = changeTaskStatusAC(taskId, newIsDoneValue, todolistId)
+            const action = changeTaskStatusAC(taskId, status, todolistId)
             dispatch(action)
         },[dispatch]
     )
