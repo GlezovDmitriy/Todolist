@@ -134,9 +134,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             }))
             return stateCopy
         }
-        case 'SET-TASKS':{
+        case 'SET-TASKS': {
             const stateCopy = {...state}
-stateCopy[action.todolistId] = action.tasks
+            stateCopy[action.todolistId] = action.tasks
             return stateCopy
         }
         default:
@@ -167,4 +167,7 @@ export const changeTaskTitleAC = (todolistId: string,
             todolistId, taskId, title
         }
     }
+}
+export const setTasksAC = (tasks: TaskType[], todolistId: string): SetTasksActionType => {
+    return {type: 'SET-TASKS',  todolistId, tasks}
 }

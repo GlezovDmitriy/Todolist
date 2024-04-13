@@ -1,4 +1,4 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, tasksReducer} from './task-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, setTasksAC, tasksReducer} from './task-reducer';
 import {TasksStateType} from '../App';
 import {removeTaskAC} from "./task-reducer";
 import {removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
@@ -86,4 +86,15 @@ test('empty arrays should be added when we set todolists', () => {
 
     expect(keys.length).toBe(3)
     expect(endState['1']).toStrictEqual([])
+})
+test('tasks should be added for todolists', () => {
+    const action = setTasksAC( startState['todolistId1'], 'todolistId1')
+    const endState = tasksReducer({
+        'todolistId2':[],
+        'todolistId1':[]
+    }, action)
+
+
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'].length).toBe(0)
 })
