@@ -23,6 +23,9 @@ export const useAppWithRedux = ()=>{
                 dispatch(action)
             })
     }, []);
+
+
+
     const removeTodolist= useCallback(
         (todolistId: string) =>{
             const action = removeTodolistAC(todolistId)

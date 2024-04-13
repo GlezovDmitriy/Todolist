@@ -109,6 +109,6 @@ export const changeTodolistTitleAC = (newTitle: string, id: string): ChangeTodol
 export const changeTodolistFilterAC = (filter: FilterValuesType, id: string): ChangeTodolistFilterActionType => {
     return {type: 'CHANGE-TODOLIST-FILTER', filter: filter, id: id}
 }
-export const setTodolistsAC = (todolists: TodolistType[]): SetTodolistsActionType => {
+export const setTodolistsAC = (todolists: TodolistDomainType[]): SetTodolistsActionType => {
     return {type: 'SET-TODOLISTS', todolists: todolists}
 }
