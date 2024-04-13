@@ -21,7 +21,10 @@ export const Task = memo(
         )
         const onChangeStatusHandler = useCallback(
             (e: ChangeEvent<HTMLInputElement>) =>
-                props.changeTasksStatus(props.todolistId, props.t.id, e.currentTarget.checked),[]
+                props.changeTasksStatus(props.todolistId, props.t.id,
+                    e.currentTarget.checked
+                        ? TaskStatuses.Completed
+                : TaskStatuses.New),[]
         )
 
         const onChangeTitleHandler = useCallback(
