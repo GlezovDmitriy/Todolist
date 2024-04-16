@@ -11,8 +11,8 @@ const rootReducer = combineReducers({
     todolists: todolistsReducer
 })
 // непосредственно создаём store
-// @ts-ignore
-export const store = createStore(rootReducer, applyMiddleware(thunk))
+
+export const store = createStore(rootReducer,undefined, applyMiddleware(thunk))
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 // создаем тип диспатча который принимает как AC так и TC

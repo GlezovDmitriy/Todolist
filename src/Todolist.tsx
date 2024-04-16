@@ -1,10 +1,14 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, FC, KeyboardEvent, useCallback, useEffect, useState} from "react";
 import {EditableSpan} from "./components/EditableSpan";
 import {Button, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
 import {Task} from "./components/Task";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {FilterValuesType} from "./state/todolists-reducer";
+import {fetchTodolistsTC, FilterValuesType} from "./state/todolists-reducer";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "./state/task-reducer";
 
 
 /*export type TaskType = {
@@ -47,6 +51,11 @@ export const Todolist: FC<PropsType> = React.memo(
             changeTodolistTitle,
         }) => {
         console.log("Todolist")
+        const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+        useEffect(() => {
+            dispatch(fetchTasksTC(todolistId))// из tl-reducer
+        }, []);
+
         let [newTaskTitle, setNewTaskTitle] = useState('')
         let [inputError, setInputError] = useState(false)
 
