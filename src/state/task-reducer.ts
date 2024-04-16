@@ -180,3 +180,12 @@ export const fetchTasksTC = (todolistId:string)=>{
         })
     }
 }
+export const removeTaskTC =(taskId:string, todolistId:string)=>{
+    return (dispatch: Dispatch)=>{
+        todolistsApi.deleteTasks(todolistId,taskId)
+            .then(res=>{
+                const action = removeTaskAC(taskId, todolistId)
+                dispatch(action)
+            })
+    }
+}
