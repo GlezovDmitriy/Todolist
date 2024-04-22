@@ -95,7 +95,15 @@ function AppWithReducers() {
         }*/
     }
     function addTask(todolistId: string, title: string) {
-        const action = addTaskAC(todolistId, title)
+        const action = addTaskAC( {
+            todoListId: todolistId,
+            id: "ef6fe64f64w",
+            title: title,
+            status: TaskStatuses.New,
+            addedDate: '',
+            order: 0, description: '', priority: 0, startDate: '',
+            deadline: '',
+        })
         dispatchToTasksReducer(action)
     }
 // function addTask можно записать (сократьть) как:
