@@ -59,13 +59,7 @@ export type TodolistDomainType = TodolistType & {
         dispatch(setTodolistsAC(res.data.map( tl => ({...tl, filter: 'all' as const}))))
     })
 }*/
-export const fetchTodolistsTC = ()=>{
-    return (dispatch: Dispatch) => {
-        todolistsApi.getTodoLists().then(res => {
-            dispatch(setTodolistsAC(res.data.map(tl => ({...tl, filter: 'all' as const}))))
-        })
-    }
-}
+
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
@@ -123,4 +117,19 @@ export const changeTodolistFilterAC = (filter: FilterValuesType, id: string): Ch
 }
 export const setTodolistsAC = (todolists: TodolistDomainType[]): SetTodolistsActionType => {
     return {type: 'SET-TODOLISTS', todolists: todolists}
+}
+export const fetchTodolistsTC = ()=>{
+    return (dispatch: Dispatch) => {
+        todolistsApi.getTodoLists().then(res => {
+            dispatch(setTodolistsAC(res.data.map(tl => ({...tl, filter: 'all' as const}))))
+        })
+    }
+}
+export const removeTodolistsTC = (todolistId:string)=>{
+    return (dispatch: Dispatch) => {
+        todolistsApi.removeTodoLists(todolistId)
+            .then(res => {
+            dispatch(removeTodolistAC(todolistId))
+        })
+    }
 }

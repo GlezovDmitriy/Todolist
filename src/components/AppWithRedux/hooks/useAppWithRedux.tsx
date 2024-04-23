@@ -4,8 +4,8 @@ import {useCallback, useEffect} from "react";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistsTC,  FilterValuesType,
-    removeTodolistAC, setTodolistsAC, TodolistDomainType
+    changeTodolistTitleAC, fetchTodolistsTC, FilterValuesType,
+    removeTodolistAC, removeTodolistsTC, setTodolistsAC, TodolistDomainType
 } from "../../../state/todolists-reducer";
 import {
     addTaskAC, addTaskTC,
@@ -34,8 +34,10 @@ export const useAppWithRedux = ()=>{
 
     const removeTodolist= useCallback(
         (todolistId: string) =>{
-            const action = removeTodolistAC(todolistId)
-            dispatch(action)
+            /*const action = removeTodolistAC(todolistId)
+            dispatch(action)*/
+            const thunk = removeTodolistsTC(todolistId)
+            dispatch(thunk)
         },[dispatch]
     )
 
