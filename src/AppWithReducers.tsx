@@ -143,7 +143,13 @@ function AppWithReducers() {
         }*/
     }
     function onClickAddTodolist(title: string) {
-        const action = addTodolistAC(title)
+        const action = addTodolistAC({
+            id:v1(),
+            title: title,
+            addedDate: "",
+            order: 0
+
+        })
         dispatchToTodolistsReducer(action) //отправляем в todolistsReducer
         dispatchToTasksReducer(action)
         /*let newTodolistId = crypto.randomUUID()

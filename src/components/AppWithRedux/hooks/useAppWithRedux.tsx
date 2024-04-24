@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../state/store";
 import {useCallback, useEffect} from "react";
 import {
-    addTodolistAC,
+    addTodolistAC, addTodolistsTC,
     changeTodolistFilterAC,
     changeTodolistTitleAC, fetchTodolistsTC, FilterValuesType,
     removeTodolistAC, removeTodolistsTC, setTodolistsAC, TodolistDomainType
@@ -15,7 +15,7 @@ import {
     removeTaskTC
 } from "../../../state/task-reducer";
 import {TasksStateType} from "../AppWithRedux";
-import {TaskStatuses, todolistsApi} from "../../../api/todolists-api";
+import {TaskStatuses, todolistsApi, TodolistType} from "../../../api/todolists-api";
 import {AnyAction} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 
@@ -34,7 +34,7 @@ export const useAppWithRedux = ()=>{
 
     const removeTodolist= useCallback(
         (todolistId: string) =>{
-            /*const action = removeTodolistAC(todolistId)
+            /*const action = removeTodolistAC(todolistId)// без thunk
             dispatch(action)*/
             const thunk = removeTodolistsTC(todolistId)
             dispatch(thunk)
@@ -84,10 +84,11 @@ export const useAppWithRedux = ()=>{
         },[dispatch]
     )
 
-    const onClickAddTodolist=useCallback((title: string)=> {
-        const action = addTodolistAC(title)
-        dispatch(action)
+    const onClickAddTodolist=useCallback((title:string)=> {
+        const thunk = addTodolistsTC(title)
+        dispatch(thunk)
     },[dispatch])
+
     return {
         todolists,
         tasks,
