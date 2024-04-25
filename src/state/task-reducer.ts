@@ -5,8 +5,9 @@ import {
     setTodolistsAC, SetTodolistsActionType, /*todolistID1, todolistID2*/
 } from "./todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses, TaskType, todolistsApi} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
+import {AppRootStateType} from "./store";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -201,3 +202,39 @@ export const addTaskTC = (todolistId:string, title:string)=>{
             })
     }
 }
+export const changeTaskStatusTC = (taskId: string,
+                                   status: TaskStatuses,
+                                   todolistId: string)=>{
+    return (dispatch: Dispatch,getState: ()=>AppRootStateType)=>{
+        const state = getState()
+        const task = state.tasks[todolistId].find(t=>t.id === taskId)
+        if (!task){
+            console.warn('TASK NOT FOUND!')
+            return}
+
+        const model: UpdateModelType = {
+            description: task.description,
+            title: task.title,
+            status: status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline
+        }
+        todolistsApi.updateTask(todolistId, taskId, model)
+            .then(res => {
+                const action = changeTaskStatusAC(taskId, status, todolistId)
+                dispatch(action)
+            })
+    }
+}
+/*
+export const changeTaskTitleTC = (todolistId:string, title:string)=>{
+    return (dispatch: Dispatch)=>{
+        todolistsApi.updateTask(todolistId, title,)
+            .then(res => {
+                const task = res.data.data.item
+                const action = addTaskAC(task)
+                dispatch(action)
+            })
+    }
+}*/

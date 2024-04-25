@@ -60,7 +60,7 @@ type DeleteTasksType = {
     messages: string[]
     data: {}
 }
-type UpdateModelType = {
+export type UpdateModelType = {
     description: string
     title: string
     //completed: boolean
