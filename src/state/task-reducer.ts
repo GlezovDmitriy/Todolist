@@ -219,6 +219,9 @@ export const changeTaskStatusTC = (taskId: string,
             priority: task.priority,
             startDate: task.startDate,
             deadline: task.deadline
+           /* /////////////////// либо чтобы не определять все свойства:
+            ...task,     // берем все - копируем
+            status: status    // переопределяем статус*/
         }
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
@@ -227,14 +230,31 @@ export const changeTaskStatusTC = (taskId: string,
             })
     }
 }
-/*
-export const changeTaskTitleTC = (todolistId:string, title:string)=>{
-    return (dispatch: Dispatch)=>{
-        todolistsApi.updateTask(todolistId, title,)
+export const changeTaskTitleTC = (todolistId: string,
+                                  taskId: string,
+                                   title: string )=>{
+    return (dispatch: Dispatch,getState: ()=>AppRootStateType)=>{
+        const state = getState()
+        const task = state.tasks[todolistId].find(t=>t.id === taskId)
+        if (!task){
+            console.warn('TASK NOT FOUND!')
+            return}
+
+        const model: UpdateModelType = {
+            description: task.description,
+            title: title,
+            status: task.status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline
+            /* /////////////////// либо чтобы не определять все свойства:
+             ...task,     // берем все - копируем
+             title: title,    // переопределяем статус*/
+        }
+        todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
-                const task = res.data.data.item
-                const action = addTaskAC(task)
+                const action = changeTaskTitleAC(todolistId, taskId, title)
                 dispatch(action)
             })
     }
-}*/
+}

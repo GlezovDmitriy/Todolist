@@ -63,10 +63,9 @@ type DeleteTasksType = {
 export type UpdateModelType = {
     description: string
     title: string
-    //completed: boolean
-    status: number
     priority: number
     startDate: string
+    status: number
     deadline: string
 }
 export const todolistsApi = {
