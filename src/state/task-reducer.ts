@@ -68,12 +68,21 @@ const initialState: TasksStateType = {}
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
-            debugger
-            const stateCopy = {...state}
+            /*const stateCopy = {...state}
             const task = state[action.payload.todolistId]
             const filteredTasks = task.filter(t => t.id !== action.payload.taskId)
             stateCopy[action.payload.todolistId] = filteredTasks
-            return stateCopy
+            return stateCopy*/
+            if (state[action.payload.todolistId]) {
+                const stateCopy = {...state}
+                const tasks = state[action.payload.todolistId]
+                const filteredTasks = tasks.filter(t => t.id !== action.payload.taskId)
+                stateCopy[action.payload.todolistId] = filteredTasks
+                return stateCopy
+            } else {
+                // Обработка случая, когда нет данных для этого todolistId
+                return state
+            }
         }
         case 'ADD-TASK': {
             const stateCopy = {...state}
@@ -147,7 +156,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 }
 
 export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActionType => {
-    debugger
     return {type: 'REMOVE-TASK', payload: {todolistId, taskId}}
 }
 /*export const addTaskAC = (todolistId: string, title: string): AddTaskActionType => {
@@ -186,11 +194,9 @@ export const fetchTasksTC = (todolistId: string) => {
     }
 }
 export const removeTaskTC = (todolistId: string, taskId: string) => {
-    debugger
     return (dispatch: Dispatch) => {
         todolistsApi.deleteTasks( todolistId, taskId)
             .then(res => {
-                debugger
                 const action = removeTaskAC( todolistId, taskId)
                 dispatch(action)
             })
