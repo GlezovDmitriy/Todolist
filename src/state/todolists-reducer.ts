@@ -128,12 +128,9 @@ export const fetchTodolistsTC = ()=>{
     }
 }
 export const removeTodolistsTC = (todolistId:string)=>{
-    console.log('removeTodolistsTC')
-    debugger
     return (dispatch: Dispatch) => {
         todolistsApi.removeTodoLists(todolistId)
             .then(res => {
-                console.log(res.data)
             dispatch(removeTodolistAC(todolistId))
         })
     }
