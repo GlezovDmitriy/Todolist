@@ -26,7 +26,6 @@ export const useAppWithRedux = ()=>{
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     useEffect(() => {
-
         dispatch(fetchTodolistsTC())// из tl-reducer
     }, []);
 
@@ -34,6 +33,7 @@ export const useAppWithRedux = ()=>{
 
     const removeTodolist= useCallback(
         (todolistId: string) =>{
+            console.log('removeTodolist')
             /*const action = removeTodolistAC(todolistId)// без thunk
             dispatch(action)*/
             const thunk = removeTodolistsTC(todolistId)
@@ -48,12 +48,19 @@ export const useAppWithRedux = ()=>{
         },[dispatch]
     )
 
-    const removeTask = useCallback(
-        (todolistId: string, id: string)=> {
+   /* const removeTask = useCallback(
+        (id: string, todolistId: string )=> {
            const thunk = removeTaskTC(id, todolistId)
             dispatch(thunk)
         },[dispatch]
-    )
+    )*/
+
+    const removeTask = useCallback(
+        function (id: string, todolistId: string ) {
+            const thunk = removeTaskTC(id, todolistId)
+            dispatch(thunk)
+        },[])
+
 
     const changeFilter=useCallback(
         (todolistId: string, value: FilterValuesType)=> {

@@ -3,12 +3,12 @@ import axios from "axios";
 const settings = {
     withCredentials: true,
     headers: {
-        "API-KEY": 'bc698716-52a0-4948-9063-299272c3de30'
+        "API-KEY": '0f2d7df8-dc25-48b4-8993-e3e250c21cfb'
     }
 }
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    withCredentials: true,
+    ...settings
 })
 type ResponseType<T = {}> = {
     resultCode: number
@@ -86,6 +86,7 @@ export const todolistsApi = {
         return instance.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)               ///instance
     },
     deleteTasks(todolistId: string, taskId: string) {
+        console.log('delete')
         return instance.delete<DeleteTasksType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     createTask(todolistId: string, taskTitle: string) {

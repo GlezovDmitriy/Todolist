@@ -173,27 +173,29 @@ export const changeTaskTitleAC = (todolistId: string,
     }
 }
 export const setTasksAC = (tasks: TaskType[], todolistId: string): SetTasksActionType => {
-    return {type: 'SET-TASKS',  todolistId, tasks}
+    return {type: 'SET-TASKS', todolistId, tasks}
 }
-export const fetchTasksTC = (todolistId:string)=>{
+export const fetchTasksTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {
         todolistsApi.getTasks(todolistId)
             .then(res => {
-            dispatch(setTasksAC(res.data.items, todolistId))
-        })
+                dispatch(setTasksAC(res.data.items, todolistId))
+            })
     }
 }
-export const removeTaskTC =(taskId:string, todolistId:string)=>{
-    return (dispatch: Dispatch)=>{
-        todolistsApi.deleteTasks(todolistId,taskId)
-            .then(res=>{
+export const removeTaskTC = (taskId: string, todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        debugger
+        todolistsApi.deleteTasks( todolistId, taskId)
+            .then(res => {
+                debugger
                 const action = removeTaskAC(taskId, todolistId)
                 dispatch(action)
             })
     }
 }
-export const addTaskTC = (todolistId:string, title:string)=>{
-    return (dispatch: Dispatch)=>{
+export const addTaskTC = (todolistId: string, title: string) => {
+    return (dispatch: Dispatch) => {
         todolistsApi.createTask(todolistId, title)
             .then(res => {
                 const task = res.data.data.item
@@ -204,13 +206,14 @@ export const addTaskTC = (todolistId:string, title:string)=>{
 }
 export const changeTaskStatusTC = (taskId: string,
                                    status: TaskStatuses,
-                                   todolistId: string)=>{
-    return (dispatch: Dispatch,getState: ()=>AppRootStateType)=>{
+                                   todolistId: string) => {
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState()
-        const task = state.tasks[todolistId].find(t=>t.id === taskId)
-        if (!task){
+        const task = state.tasks[todolistId].find(t => t.id === taskId)
+        if (!task) {
             console.warn('TASK NOT FOUND!')
-            return}
+            return
+        }
 
         const model: UpdateModelType = {
             description: task.description,
@@ -219,9 +222,9 @@ export const changeTaskStatusTC = (taskId: string,
             priority: task.priority,
             startDate: task.startDate,
             deadline: task.deadline
-           /* /////////////////// либо чтобы не определять все свойства:
-            ...task,     // берем все - копируем
-            status: status    // переопределяем статус*/
+            /* /////////////////// либо чтобы не определять все свойства:
+             ...task,     // берем все - копируем
+             status: status    // переопределяем статус*/
         }
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
@@ -232,13 +235,14 @@ export const changeTaskStatusTC = (taskId: string,
 }
 export const changeTaskTitleTC = (todolistId: string,
                                   taskId: string,
-                                   title: string )=>{
-    return (dispatch: Dispatch,getState: ()=>AppRootStateType)=>{
+                                  title: string) => {
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState()
-        const task = state.tasks[todolistId].find(t=>t.id === taskId)
-        if (!task){
+        const task = state.tasks[todolistId].find(t => t.id === taskId)
+        if (!task) {
             console.warn('TASK NOT FOUND!')
-            return}
+            return
+        }
 
         const model: UpdateModelType = {
             description: task.description,
@@ -249,7 +253,7 @@ export const changeTaskTitleTC = (todolistId: string,
             deadline: task.deadline
             /* /////////////////// либо чтобы не определять все свойства:
              ...task,     // берем все - копируем
-             title: title,    // переопределяем статус*/
+             title: title,    // переопределяем title*/
         }
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
