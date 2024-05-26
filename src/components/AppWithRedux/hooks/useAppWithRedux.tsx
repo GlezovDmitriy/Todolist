@@ -18,83 +18,83 @@ import {TasksStateType} from "../AppWithRedux";
 import {TaskStatuses, todolistsApi, TodolistType} from "../../../api/todolists-api";
 import {AnyAction} from "redux";
 import {ThunkDispatch} from "redux-thunk";
+import {RequestStatusType} from "../../../app/app-reducer";
 
-export const useAppWithRedux = ()=>{
+export const useAppWithRedux = () => {
     const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
     //const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     useEffect(() => {
         dispatch(fetchTodolistsTC())// из tl-reducer
     }, []);
 
 
-
-    const removeTodolist= useCallback(
-        (todolistId: string) =>{
+    const removeTodolist = useCallback(
+        (todolistId: string) => {
             console.log('removeTodolist')
             /*const action = removeTodolistAC(todolistId)// без thunk
             dispatch(action)*/
             const thunk = removeTodolistsTC(todolistId)
             dispatch(thunk)
-        },[dispatch]
+        }, [dispatch]
     )
 
-    const changeTodolistTitle= useCallback(
-        (todolistId: string, newTitle: string)=> {
-            const thunk = changeTodolistTitleTC( todolistId, newTitle)
+    const changeTodolistTitle = useCallback(
+        (todolistId: string, newTitle: string) => {
+            const thunk = changeTodolistTitleTC(todolistId, newTitle)
             dispatch(thunk)
-        },[dispatch]
+        }, [dispatch]
     )
 
-   /* const removeTask = useCallback(
-        (id: string, todolistId: string )=> {
-           const thunk = removeTaskTC(id, todolistId)
-            dispatch(thunk)
-        },[dispatch]
-    )*/
+    /* const removeTask = useCallback(
+         (id: string, todolistId: string )=> {
+            const thunk = removeTaskTC(id, todolistId)
+             dispatch(thunk)
+         },[dispatch]
+     )*/
 
     const removeTask = useCallback(
-        function (id: string, todolistId: string ) {
+        function (id: string, todolistId: string) {
             const thunk = removeTaskTC(id, todolistId)
             dispatch(thunk)
-        },[])
+        }, [])
 
 
-    const changeFilter=useCallback(
-        (todolistId: string, value: FilterValuesType)=> {
+    const changeFilter = useCallback(
+        (todolistId: string, value: FilterValuesType) => {
             const action = changeTodolistFilterAC(value, todolistId)
             dispatch(action)
-        },[dispatch]
+        }, [dispatch]
     )
 
     const addTask = useCallback(
-        (todolistId: string, title: string) =>{
+        (todolistId: string, title: string) => {
             //const action = addTaskAC(todolistId, title)
             const thunk = addTaskTC(todolistId, title)
             dispatch(thunk)
-        },[dispatch]
+        }, [dispatch]
     )
 
     const changeTasksStatus = useCallback(
-        (todolistId: string, taskId: string, status:TaskStatuses)=>{
+        (todolistId: string, taskId: string, status: TaskStatuses) => {
             const thunk = changeTaskStatusTC(taskId, status, todolistId)
             dispatch(thunk)
-        },[dispatch]
+        }, [dispatch]
     )
 
-    const changeTaskTitle= useCallback(
-        (todolistId: string, taskId: string, newTitle: string)=> {
+    const changeTaskTitle = useCallback(
+        (todolistId: string, taskId: string, newTitle: string) => {
             const thunk = changeTaskTitleTC(todolistId, taskId, newTitle)
             dispatch(thunk)
-        },[dispatch]
+        }, [dispatch]
     )
 
-    const onClickAddTodolist=useCallback((title:string)=> {
+    const onClickAddTodolist = useCallback((title: string) => {
         const thunk = addTodolistsTC(title)
         dispatch(thunk)
-    },[dispatch])
+    }, [dispatch])
 
     return {
         todolists,
@@ -106,6 +106,7 @@ export const useAppWithRedux = ()=>{
         removeTask,
         changeFilter,
         changeTodolistTitle,
-        onClickAddTodolist
+        onClickAddTodolist,
+        status
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import '../../App.css';
 import {Todolist} from "../../Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Container, Grid, Paper} from "@mui/material";
+import {Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {AppBarFC} from "../AppBarFC";
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
 import {TaskType} from "../../api/todolists-api";
@@ -34,7 +34,8 @@ function AppWithRedux() {
         removeTask,
         changeFilter,
         changeTodolistTitle,
-        onClickAddTodolist
+        onClickAddTodolist,
+        status
     } = useAppWithRedux()
 
     return (
@@ -42,6 +43,7 @@ function AppWithRedux() {
             <div className='App'>
                 {/*<Box sx={{ flexGrow: 1 }}>*/}
                 <AppBarFC/>
+                {status === 'loading' && <LinearProgress/>}
                 {/*</Box>*/}
                 <Container fixed>
                     <Grid container style={{padding: '20px'}}>
