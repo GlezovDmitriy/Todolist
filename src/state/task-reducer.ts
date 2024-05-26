@@ -8,6 +8,7 @@ import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
+import {setAppStatusAC} from "../app/app-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -187,28 +188,34 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string): SetTasksActio
 }
 export const fetchTasksTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsApi.getTasks(todolistId)
             .then(res => {
                 dispatch(setTasksAC(res.data.items, todolistId))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const removeTaskTC = (todolistId: string, taskId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsApi.deleteTasks( todolistId, taskId)
             .then(res => {
                 const action = removeTaskAC( todolistId, taskId)
                 dispatch(action)
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const addTaskTC = (todolistId: string, title: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsApi.createTask(todolistId, title)
             .then(res => {
                 const task = res.data.data.item
                 const action = addTaskAC(task)
                 dispatch(action)
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -234,10 +241,12 @@ export const changeTaskStatusTC = (taskId: string,
              ...task,     // берем все - копируем
              status: status    // переопределяем статус*/
         }
+        dispatch(setAppStatusAC('loading'))
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
                 const action = changeTaskStatusAC(taskId, status, todolistId)
                 dispatch(action)
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -263,10 +272,12 @@ export const changeTaskTitleTC = (todolistId: string,
              ...task,     // берем все - копируем
              title: title,    // переопределяем title*/
         }
+        dispatch(setAppStatusAC('loading'))
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
                 const action = changeTaskTitleAC(todolistId, taskId, title)
                 dispatch(action)
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
