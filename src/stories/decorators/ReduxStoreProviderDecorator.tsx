@@ -37,7 +37,9 @@ const initialGlobalState: AppRootStateType = {
                 deadline:'',todoListId:"todolistID2"}
         ]
     },
-    app:{status: 'loading'}
+    app:{status: 'loading', error: null},
+
+
 };
 
 // @ts-ignore

@@ -6,6 +6,7 @@ import {Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {AppBarFC} from "../AppBarFC";
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
 import {TaskType} from "../../api/todolists-api";
+import {ErrorSnackbar} from "../ErrorSnackbar/ErrorSnackbar";
 
 /*export type FilterValuesType = 'completed' | 'all' | 'active' | 'delete all'*/
 /*export type TodolistType = {
@@ -42,6 +43,7 @@ function AppWithRedux() {
         <>
             <div className='App'>
                 {/*<Box sx={{ flexGrow: 1 }}>*/}
+                <ErrorSnackbar/>
                 <AppBarFC/>
                 {status === 'loading' && <LinearProgress/>}
                 {/*</Box>*/}
