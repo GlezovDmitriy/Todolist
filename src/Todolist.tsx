@@ -9,6 +9,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {useDispatch} from "react-redux";
 import {fetchTasksTC} from "./state/task-reducer";
+import {RequestStatusType} from "./app/app-reducer";
 
 
 /*export type TaskType = {
@@ -24,10 +25,11 @@ export type PropsType = {
     removeTask: (todolistId: string, id: string) => void,
     changeFilter: (todolistId: string, value: FilterValuesType) => void,
     addTask: (todolistId: string, title: string) => void,
-    changeTasksStatus: (todolistId: string, taskId: string, status:TaskStatuses) => void,
+    changeTasksStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void,
     changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
+    entityStatus: RequestStatusType
 }
 
 
@@ -49,6 +51,7 @@ export const Todolist: FC<PropsType> = React.memo(
             removeTodolist,
             changeTaskTitle,
             changeTodolistTitle,
+            entityStatus,
         }) => {
         console.log("Todolist")
         const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -104,7 +107,9 @@ export const Todolist: FC<PropsType> = React.memo(
                     {/*<button className={"todolist-btn"}
                            onClick={()=>removeTodolist(todolistId)}>X</button>*/}
                     <IconButton onClick={() => removeTodolist(todolistId)}
-                                style={{marginTop: '3px'}}>
+                                style={{marginTop: '3px'}}
+                                disabled={entityStatus === 'loading'}>
+                        {/*задизэйблить, если статус тудулиста - loading*/}
                         <Delete/>
                     </IconButton>
                 </h3>

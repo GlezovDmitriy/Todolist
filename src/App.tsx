@@ -187,6 +187,7 @@ function App() {
                                             removeTodolist={removeTodolist}
                                             changeTaskTitle={changeTaskTitle}
                                             changeTodolistTitle={changeTodolistTitle}
+                                            entityStatus = {el.entityStatus}
                                         />
                                     </Paper>
                                 </Grid>

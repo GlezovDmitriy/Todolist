@@ -31,8 +31,8 @@ function AppWithReducers() {
 
     let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer,
         [
-            {id: todolistID1, title: 'What to learn', filter: 'all', addedDate:'', order:0},
-            {id: todolistID2, title: 'What to buy', filter: 'all', addedDate:'', order:0},
+            {id: todolistID1, title: 'What to learn', filter: 'all', addedDate:'', order:0, entityStatus: 'idle' },
+            {id: todolistID2, title: 'What to buy', filter: 'all', addedDate:'', order:0, entityStatus: 'idle'},
         ]
     )
     let [tasks, dispatchToTasksReducer] = useReducer(tasksReducer,{
@@ -201,6 +201,7 @@ function AppWithReducers() {
                                             removeTodolist={removeTodolist}
                                             changeTaskTitle={changeTaskTitle}
                                             changeTodolistTitle={changeTodolistTitle}
+                                            entityStatus = {el.entityStatus}
                                         />
                                     </Paper>
                                 </Grid>
