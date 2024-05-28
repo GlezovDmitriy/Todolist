@@ -87,9 +87,9 @@ test('property with todolistId should be deleted', () => {
 })
 test('empty arrays should be added when we set todolists', () => {
     const action = setTodolistsAC([
-        {id: "1", title: "CSS", filter:'all', order:0, addedDate:''},
-        {id: "2", title: "JS", filter:'all', order:0, addedDate:''},
-        {id: "3", title: "React",  filter:'all', order:0, addedDate:''}
+        {id: "1", title: "CSS", filter:'all', order:0, addedDate:'', entityStatus: 'idle'},
+        {id: "2", title: "JS", filter:'all', order:0, addedDate:'', entityStatus: 'idle'},
+        {id: "3", title: "React",  filter:'all', order:0, addedDate:'', entityStatus: 'idle'}
     ],)
     const endState = tasksReducer({}, action)
     const keys = Object.keys(endState)

@@ -72,12 +72,12 @@ export const Todolist: FC<PropsType> = React.memo(
             }
             setNewTaskTitle(newTaskTitle = '')
         }
-        const isAddBtnDisabled = newTaskTitle.length >= 15
+        /*const isAddBtnDisabled = newTaskTitle.length >= 15         // переделал на проверку на сервере
         const userMessage = inputError
             ? <span style={{color: 'red'}}> Please, enter something!</span>
             : newTaskTitle.length < 15
                 ? <span> Enter new title</span>
-                : <span style={{color: 'red'}}> Too long message!</span>
+                : <span style={{color: 'red'}}> Too long message!</span>*/
         const onKeyDownAddTask = (event: KeyboardEvent<HTMLInputElement>) => event.key === "Enter" &&
             onClickAddTask()
 
@@ -143,11 +143,11 @@ export const Todolist: FC<PropsType> = React.memo(
                     <IconButton //variant="contained"
                         color='primary'
                         onClick={onClickAddTask}
-                        disabled={isAddBtnDisabled}>
+                        /*disabled={isAddBtnDisabled}*/>
                         <AddBox/>
                     </IconButton>
                     <div>
-                        <span>{userMessage} </span>
+                        {/*<span>{userMessage} </span>*/}
                     </div>
 
                 </div>
