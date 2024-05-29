@@ -144,6 +144,7 @@ export const fetchTodolistsTC = () => {
 export const removeTodolistsTC = (todolistId: string) => {
     return (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         todolistsApi.removeTodoLists(todolistId)
             .then(res => {
                 dispatch(removeTodolistAC(todolistId))
@@ -171,4 +172,5 @@ export const changeTodolistTitleTC = (id: string, newTitle: string) => {
             })
     }
 }
+
 type ThunkDispatchType = Dispatch<ActionType | setAppStatusActionType>

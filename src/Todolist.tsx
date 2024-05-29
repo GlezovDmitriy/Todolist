@@ -137,6 +137,7 @@ export const Todolist: FC<PropsType> = React.memo(
                         onChange={onChangeSetNewTaskTitle}
                         onKeyDown={onKeyDownAddTask}
                         helperText={inputError}
+                        disabled={entityStatus === 'loading'}
                     />
 
                     {/*<button
@@ -148,7 +149,7 @@ export const Todolist: FC<PropsType> = React.memo(
                     <IconButton //variant="contained"
                         color='primary'
                         onClick={onClickAddTask}
-                        /*disabled={isAddBtnDisabled}*/>
+                        disabled={entityStatus === 'loading'}>
                         <AddBox/>
                     </IconButton>
                     <div>
