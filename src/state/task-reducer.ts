@@ -9,6 +9,8 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsApi, UpdateModelType} f
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -225,6 +227,10 @@ export const addTaskTC = (todolistId: string, title: string) => {
                     dispatch(setAppStatusAC('failed'))
                 }
             })
+            .catch(error => {
+                dispatch(setAppErrorAC(error.message))
+                dispatch(setAppStatusAC('failed'))
+            })
     }
 }
 export const changeTaskStatusTC = (taskId: string,
@@ -283,9 +289,23 @@ export const changeTaskTitleTC = (todolistId: string,
         dispatch(setAppStatusAC('loading'))
         todolistsApi.updateTask(todolistId, taskId, model)
             .then(res => {
-                const action = changeTaskTitleAC(todolistId, taskId, title)
-                dispatch(action)
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    const action = changeTaskTitleAC(todolistId, taskId, title)
+                    dispatch(action)
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    if (res.data.messages.length) {
+                        dispatch(setAppErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setAppErrorAC('Some error occurred'))
+                    }
+                    dispatch(setAppStatusAC('failed'))
+            }
             })
+            .catch(error => {
+                dispatch(setAppErrorAC(error.message))
+                dispatch(setAppStatusAC('failed'))
+                }
+            )
     }
 }

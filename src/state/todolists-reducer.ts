@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {todolistsApi, TodolistType} from "../api/todolists-api";
 import {Dispatch} from 'redux'
-import {RequestStatusType, setAppStatusAC, setAppStatusActionType} from "../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, SetAppStatusActionType} from "../app/app-reducer";
 /*type ActionType = {
     type: string
     [key: string]: any
@@ -173,4 +173,4 @@ export const changeTodolistTitleTC = (id: string, newTitle: string) => {
     }
 }
 
-type ThunkDispatchType = Dispatch<ActionType | setAppStatusActionType>
+type ThunkDispatchType = Dispatch<ActionType | SetAppStatusActionType>
