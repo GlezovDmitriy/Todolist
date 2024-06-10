@@ -10,8 +10,8 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
-type ResponseType<T = {}> = {
-    resultCode: number
+export type ResponseType<T = {}> = {
+    resultCode: number,
     fieldsErrors: string[],
     messages: string[],
     data: T
@@ -56,6 +56,7 @@ type GetTasksType = {
     items: TaskType[]
 }
 type DeleteTasksType = {
+    fieldsErrors: string[],
     resultCode: number
     messages: string[]
     data: {}

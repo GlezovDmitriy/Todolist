@@ -11,6 +11,7 @@ import {AppRootStateType} from "./store";
 import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -219,17 +220,22 @@ export const addTaskTC = (todolistId: string, title: string) => {
                     dispatch(addTaskAC(task))
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
-                    if (res.data.messages.length) {
+                    /*if (res.data.messages.length) {
                         dispatch(setAppErrorAC(res.data.messages[0]))
                     } else {
                         dispatch(setAppErrorAC('Some error occurred'))
                     }
-                    dispatch(setAppStatusAC('failed'))
+                    dispatch(setAppStatusAC('failed'))*/
+                    //вынесли в error-utils дублирование...
+                    handleServerAppError(res.data, dispatch)
+
                 }
             })
             .catch(error => {
-                dispatch(setAppErrorAC(error.message))
-                dispatch(setAppStatusAC('failed'))
+                /*dispatch(setAppErrorAC(error.message))
+                dispatch(setAppStatusAC('failed'))*/
+                //вынесли в error-utils дублирование...
+                handleServerNetworkError(error,dispatch)
             })
     }
 }
@@ -294,17 +300,21 @@ export const changeTaskTitleTC = (todolistId: string,
                     dispatch(action)
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
-                    if (res.data.messages.length) {
+                    /*if (res.data.messages.length) {
                         dispatch(setAppErrorAC(res.data.messages[0]))
                     } else {
                         dispatch(setAppErrorAC('Some error occurred'))
                     }
-                    dispatch(setAppStatusAC('failed'))
+                    dispatch(setAppStatusAC('failed'))*/
+                    //вынесли в error-utils дублирование...
+                    handleServerAppError(res.data, dispatch)
             }
             })
             .catch(error => {
-                dispatch(setAppErrorAC(error.message))
-                dispatch(setAppStatusAC('failed'))
+                /*dispatch(setAppErrorAC(error.message))
+                dispatch(setAppStatusAC('failed'))*/
+                //вынесли в error-utils дублирование...
+                handleServerNetworkError(error,dispatch)
                 }
             )
     }
