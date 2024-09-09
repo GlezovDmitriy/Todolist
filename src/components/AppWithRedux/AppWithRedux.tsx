@@ -67,7 +67,7 @@ function AppWithRedux() {
                                             filter={el.filter}
                                             entityStatus = {el.entityStatus}
                                             tasks={tasksForTodolist}
-                                            removeTask={removeTask}
+                                            removeTask={removeTask}q
                                             changeFilter={changeFilter}
                                             addTask={addTask}
                                             changeTasksStatus={changeTasksStatus}
